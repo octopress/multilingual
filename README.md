@@ -1,8 +1,8 @@
 # Octopress Multi Language
 
-TODO: Write a gem description
-
-## Installation
+![Build Status](http://img.shields.io/travis/octopress/multi-language.svg)](https://travis-ci.org/octopress/multi-language)
+<!--[![Gem Version](http://img.shields.io/gem/v/octopress-multi-language.svg)](https://rubygems.org/gems/octopress-multi-language)-->
+[![License](http://img.shields.io/:license-mit-blue.svg)](http://octopress.mit-license.org)
 
 ## Installation
 
