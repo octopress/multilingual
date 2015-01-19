@@ -1,4 +1,5 @@
 timezone: GMT
 gems:
   - octopress-multilingual
+  - octopress-debugger
 main_language: en

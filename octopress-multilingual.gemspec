@@ -19,6 +19,7 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency "octopress-hooks"
 
+  spec.add_development_dependency "octopress"
   spec.add_development_dependency "clash"
   spec.add_development_dependency "bundler", "~> 1.7"
   spec.add_development_dependency "rake", "~> 10.0"

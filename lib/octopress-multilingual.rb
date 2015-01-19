@@ -1,4 +1,5 @@
 require "octopress-multilingual/version"
+require "octopress-multilingual/posts_by-tag"
 require 'octopress-hooks'
 
 module Octopress

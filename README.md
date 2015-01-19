@@ -116,23 +116,62 @@ If you don't want language to appear in your URLs, you must configure your own p
 ## Post Indexes and RSS Feeds
 
 This plugin modifies your site's post list. The `site.posts` array **will not contain every post**, but only posts defined with your site's main language or with no language defined.
-You may access secondary languages with `site.posts_by_language`.
 
-For example, to loop through the posts written in your main language (or without a defined language) you would do this:
-
-```
-{% for post in site.posts.reverse %}
-```
-
-This is probably the way your posts index and RSS feeds are generated. If you want to loop through the posts from a secondary language — in this case, German — you would want to do this:
+Using the `post_lang` liquid block, set the language for posts in your post loop. Here's how to use it:
 
 ```
-{% for post in site.posts_by_language.de.reverse %}
+# Standard post loop (loops through main language)
+{% for post in site.posts %}...{% endfor %}
+
+# Loop through german posts (and crossposts)
+{% post_lang de %}
+{% for post in site.posts %}...{% endfor %}
+{% endpost_lang %}
 ```
 
-If your default post index is at `/index.html` you should create additional indexes for each secondary language. If you're also writing in German, you'd copy your posts index to `/de/index.html`.
+If your default post index is at `/index.html` you should create additional indexes for each secondary language. If you're also writing in German, create a posts index at `/de/index.html`.
 
-This practice should work for RSS feeds and anything that works with the post loop.
+DRY up your templates by putting post loops in an include. 
+
+<!-- title:"From /index.html" -->
+```
+# Render main language post index
+{% include post-index.html %}
+```
+
+<!-- title:"From /de/index.html" -->
+```
+# Render German post index
+{% include post-index.html lang='de' %}
+```
+
+The post loop in your `_includes/post-index.html` file would look
+like this:
+
+<!-- title:"From _includes/post-index.html" -->
+```
+{% post_lang include.lang %}
+{% for post in site.posts %}...{% endfor %}
+{% endpost_lang %}
+```
+
+This approach should work for RSS feeds and anything that works with the post loop.
+
+## Reference posts by language
+
+You may also access secondary languages directly with `site.posts_by_language`.
+
+For example, to loop through the posts written in your main language (or those with no defined language) you would do this:
+
+```
+{% for post in site.posts %}
+```
+
+If you want to loop through the posts from a secondary language — in this case, German — you would want to do this:
+
+```
+{% for post in site.posts_by_language.de %}
+```
 
 ## Contributing
 
