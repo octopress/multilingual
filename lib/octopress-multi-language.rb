@@ -1,5 +1,4 @@
 require "octopress-multi-language/version"
-require 'octopress'
 require 'octopress-hooks'
 
 module Octopress
