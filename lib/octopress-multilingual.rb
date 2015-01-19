@@ -66,6 +66,7 @@ module Octopress
           'posts'             => main_language_posts,
           'posts_by_language' => posts_by_language,
           'languages'         => languages
+          'lang'              => main_language
         }
       end
     end
@@ -83,7 +84,9 @@ module Octopress
         # appear in each language's feed
         #
         
-        { 'site' => Octopress::Multilingual.site_payload(site) }
+        { 
+          'site' => Octopress::Multilingual.site_payload(site),
+        }
       end
     end
   end

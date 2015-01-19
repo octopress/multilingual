@@ -113,17 +113,30 @@ ordinal => /:lang/:categories/:year/:y_day/:title.html
 
 If you don't want language to appear in your URLs, you must configure your own permalinks without `:lang`.
 
-## Post Indexes and RSS Feeds
+## Changing language scope
 
 This plugin modifies your site's post list. The `site.posts` array **will not contain every post**, but only posts defined with your site's main language or with no language defined.
 
-Using the `set_lang` liquid block, set the language for posts in your post loop. Here's how to use it:
+Using the `set_lang` liquid block, you can temporarily switch languages while rendering a portion of your site. For example:
 
 ```
-# Standard post loop (loops through main language)
-{% for post in site.posts %}...{% endfor %}
+{{ site.lang }}    # => 'en'
+{{ site.posts }}   # => English posts 
 
-# Loop through german posts (and crossposts)
+{% set_lang de %}
+  {{ site.lang }}  # => 'de'
+  {{ site.posts }} # => German posts 
+{% endset_lang %}
+
+{{ site.lang }}    # => 'en'
+{{ site.posts }}   # => English posts 
+```
+
+## Post Indexes and RSS Feeds
+
+To add multilingual post indexes you can use the `set_lang` tag like this:
+
+```
 {% set_lang de %}
 {% for post in site.posts %}...{% endfor %}
 {% endset_lang %}
@@ -131,31 +144,50 @@ Using the `set_lang` liquid block, set the language for posts in your post loop.
 
 If your default post index is at `/index.html` you should create additional indexes for each secondary language. If you're also writing in German, create a posts index at `/de/index.html`.
 
-DRY up your templates by putting post loops in an include. 
-
-<!-- title:"From /index.html" -->
-```
-# Render main language post index
-{% include post-index.html %}
-```
-
-<!-- title:"From /de/index.html" -->
-```
-# Render German post index
-{% include post-index.html lang='de' %}
-```
-
-The post loop in your `_includes/post-index.html` file would look
-like this:
+DRY up your templates by putting post loops in an include, for
+example, `_includes/post-index.html`. It might look this:
 
 <!-- title:"From _includes/post-index.html" -->
 ```
-{% post_lang include.lang %}
+{% set_lang page.lang %}
 {% for post in site.posts %}...{% endfor %}
 {% endpost_lang %}
 ```
 
-This approach should work for RSS feeds and anything that works with the post loop.
+Set the page language to German and include the same partial.
+
+<!-- title:"From /de/index.html" -->
+```
+---
+lang: de
+---
+{% include post-index.html %}
+```
+
+The `set_lang` tag will read the `page.lang` setting and
+convert the post loop to use German. If `page.lang` were
+`nil` the default language will be used.
+
+If you don't want to set the `lang` for a page, but want to
+use `{% set_lang %}`, that's fine too. It will also work like
+this:
+
+```
+{% include post-index.html lang='de' %}
+
+# Then in the included partial
+{% set_lang include.lang %}
+...
+```
+
+Or even just use a normal post loop on your included file and
+set the language when including the partial.
+
+```
+{% set_lang de %}{% include post-index.html %}{% endset_lang %}
+```
+
+There are lots of ways to use this, but this approach should work for RSS feeds or any template system which works with the post loop.
 
 ## Reference posts by language
 
