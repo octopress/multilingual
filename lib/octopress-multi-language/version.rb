@@ -1,5 +1,5 @@
 module Octopress
-  def MultiLanguage
+  module MultiLanguage
     VERSION = "1.0.0"
   end
 end

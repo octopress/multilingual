@@ -1,18 +1,89 @@
 require "octopress-multi-language/version"
+require 'octopress'
 require 'octopress-hooks'
 
 module Octopress
   module MultiLanguage
+    extend self
+    attr_accessor :site, :posts
+
+    def main_language
+      if @lang ||= site.config['main_language']
+        @lang.downcase
+      else
+        abort "Build canceled by Octopress MultiLanguage.\n".red \
+             << "Your Jekyll site configuration must have a main language. For example:\n\n" \
+             << "  main_language: en\n\n"
+      end
+    end
+
+    def site
+      @site
+    end
+    
+    def languages
+      posts_by_language.keys
+    end
+
+    def posts_by_language
+      @posts_by_language ||= begin 
+        posts = site.posts.select(&:lang).group_by(&:lang) \
+        ## Add posts that crosspost to all languages
+        .each do |lang, posts|
+          if lang == main_language
+            posts.clear.concat(main_language_posts)
+          else
+            posts.concat(crossposts).sort_by(&:date)
+          end
+        end
+        posts
+      end
+    end
+
+    def main_language_posts
+      site.posts.reject do |post|
+        post.lang && post.lang != main_language
+      end
+    end
+
+    def crossposts
+      @cross_posts ||= begin
+        posts = site.posts.select do |post|
+          post.data['crosspost_languages']
+        end
+      end
+    end
+
+    def posts_without_lang
+      @posts_without_lang ||= site.reject(&:lang)
+    end
+
+    def site_payload(site)
+      @site = site
+
+      if main_language
+        {
+          'posts'             => main_language_posts,
+          'posts_by_language' => posts_by_language,
+          'languages'         => languages
+        }
+      end
+    end
+
+
     class SiteHook < Hooks::Site
+      priority :low
+
       def merge_payload(payload, site)
 
-        # Group posts by language, { 'posts_en' => [posts,..] }
+        # Group posts by language, { 'en_post' => [posts,..] }
         #
-        p = site.posts.select(&:lang).group_by(&:lang).map do |lang, posts|
-          ["posts_#{lang}", posts]
-        end
 
-        { 'site' => Hash[p] }
+        # Ensure that posts without an assigned language
+        # appear in each language's feed
+        #
+        
+        { 'site' => Octopress::MultiLanguage.site_payload(site) }
       end
     end
   end
@@ -47,7 +118,7 @@ module Jekyll
     end
 
     def lang
-      data['lang']
+      data['lang'].downcase if data['lang'] 
     end
 
     def url_placeholders

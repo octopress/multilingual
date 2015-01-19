@@ -1,0 +1,7 @@
+---
+title: "A Multi-language Test"
+date: 2015-01-17T19:55:03-06:00
+lang: en
+---
+
+This post is written in English.
