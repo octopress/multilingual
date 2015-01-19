@@ -65,7 +65,7 @@ module Octopress
         {
           'posts'             => main_language_posts,
           'posts_by_language' => posts_by_language,
-          'languages'         => languages
+          'languages'         => languages,
           'lang'              => main_language
         }
       end
