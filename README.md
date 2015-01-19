@@ -117,16 +117,16 @@ If you don't want language to appear in your URLs, you must configure your own p
 
 This plugin modifies your site's post list. The `site.posts` array **will not contain every post**, but only posts defined with your site's main language or with no language defined.
 
-Using the `post_lang` liquid block, set the language for posts in your post loop. Here's how to use it:
+Using the `set_lang` liquid block, set the language for posts in your post loop. Here's how to use it:
 
 ```
 # Standard post loop (loops through main language)
 {% for post in site.posts %}...{% endfor %}
 
 # Loop through german posts (and crossposts)
-{% post_lang de %}
+{% set_lang de %}
 {% for post in site.posts %}...{% endfor %}
-{% endpost_lang %}
+{% endset_lang %}
 ```
 
 If your default post index is at `/index.html` you should create additional indexes for each secondary language. If you're also writing in German, create a posts index at `/de/index.html`.

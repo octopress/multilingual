@@ -10,24 +10,29 @@ module Octopress
 
       def render(context)
         @context    = context
-        @languages  = context['site.languages']
-        lang_posts  = context['site.posts_by_language']
+        @languages  = @context['site.languages']
+        @lang_posts  = @context['site.posts_by_language']
 
-        # Was a language passed in?
+        # Render with new posts context
         if lang
+
           # Set posts loop, to language
-          context.environments.first['site']['posts'] = lang_posts[lang]
+          set_post_lang lang
 
-          # Render with new posts context
-          rendered = super(context)
+          # Render
+          content = super(context)
 
-          # Restore posts to context
-          context.environments.first['site']['posts'] = lang_posts[context['site.main_language']]
+          # Reset posts to main language
+          set_post_lang context['site.main_language']
 
-          rendered
+          content
         else
           super(context)
         end
+      end
+
+      def set_post_lang(lang)
+        @context.environments.first['site']['posts'] = @lang_posts[lang]
       end
 
       def lang
@@ -41,5 +46,5 @@ module Octopress
   end
 end
 
-Liquid::Template.register_tag('post_lang', Octopress::Multilingual::PostsByTag)
+Liquid::Template.register_tag('set_lang', Octopress::Multilingual::PostsByTag)
 
