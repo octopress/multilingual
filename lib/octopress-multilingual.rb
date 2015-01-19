@@ -1,8 +1,8 @@
-require "octopress-multi-language/version"
+require "octopress-multilingual/version"
 require 'octopress-hooks'
 
 module Octopress
-  module MultiLanguage
+  module Multilingual
     extend self
     attr_accessor :site, :posts
 
@@ -10,7 +10,7 @@ module Octopress
       if @lang ||= site.config['main_language']
         @lang.downcase
       else
-        abort "Build canceled by Octopress MultiLanguage.\n".red \
+        abort "Build canceled by Octopress Multilingual.\n".red \
              << "Your Jekyll site configuration must have a main language. For example:\n\n" \
              << "  main_language: en\n\n"
       end
@@ -82,7 +82,7 @@ module Octopress
         # appear in each language's feed
         #
         
-        { 'site' => Octopress::MultiLanguage.site_payload(site) }
+        { 'site' => Octopress::Multilingual.site_payload(site) }
       end
     end
   end

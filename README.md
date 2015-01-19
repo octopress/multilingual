@@ -1,7 +1,9 @@
-# Octopress Multi Language
+# Octopress Multilingual
 
-![Build Status](http://img.shields.io/travis/octopress/multi-language.svg)](https://travis-ci.org/octopress/multi-language)
-<!--[![Gem Version](http://img.shields.io/gem/v/octopress-multi-language.svg)](https://rubygems.org/gems/octopress-multi-language)-->
+Add multiple language features to your Jekyll site.
+
+![Build Status](http://img.shields.io/travis/octopress/multilingual.svg)](https://travis-ci.org/octopress/multilingual)
+<!--[![Gem Version](http://img.shields.io/gem/v/octopress-multilingual.svg)](https://rubygems.org/gems/octopress-multilingual)-->
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://octopress.mit-license.org)
 
 ## Installation
@@ -9,7 +11,7 @@
 If you're using bundler add this gem to your site's Gemfile in the `:jekyll_plugins` group:
 
     group :jekyll_plugins do
-      gem 'octopress-multi-language'
+      gem 'octopress-multilingual'
     end
 
 Then install the gem with Bundler
@@ -18,21 +20,21 @@ Then install the gem with Bundler
 
 To install manually without bundler:
 
-    $ gem install octopress-multi-language
+    $ gem install octopress-multilingual
 
 Then add the gem to your Jekyll configuration.
 
     gems:
-      - octopress-multi-language
+      - octopress-multilingual
 
 
 ## An important note
 
-**There is not a Jekyll standard for multi-language sites** and many plugins will not work properly with this setup. Octopress and it's
-plugins are being designed to support multi-language features, but without a standard, some use-cases may be overlooked. If you have a
-problem with an Octopress plugin supporting your multi-language site, please file an issue and we'll do our best to address it.
+**There is not a Jekyll standard for multilingual sites** and many plugins will not work properly with this setup. Octopress and it's
+plugins are being designed to support multilingual features, but without a standard, some use-cases may be overlooked. If you have a
+problem with an Octopress plugin supporting your multilingual site, please file an issue and we'll do our best to address it.
 
-## Setting up a multi-language site
+## Setting up a multilingual site
 
 When adding this plugin to your site, you will need to:
 
@@ -40,9 +42,9 @@ When adding this plugin to your site, you will need to:
 2. Add a language to the YAML front-matter of your posts, e.g. `lang: de`.
 3. Add new RSS feeds and post indexes for secondary languages.
 
-Read on and I'll try to walk you through setting up your multi-language site. 
+Read on and I'll try to walk you through setting up your multilingual site. 
 
-Note: This guide will only cover the steps listed above. Your site may still have some plugins which are not designed for multi-language sites. If you are using plugins (like a category index generator) which create pages from your site's posts, they may need to be modified or removed. Modifying plugins is beyond the scope of this guide.
+Note: This guide will only cover the steps listed above. Your site may still have some plugins which are not designed for multilingual sites. If you are using plugins (like a category index generator) which create pages from your site's posts, they may need to be modified or removed. Modifying plugins is beyond the scope of this guide.
 
 ## Configuration
 
@@ -96,7 +98,7 @@ If you have not specified a permalink style, or if you are using one of Jekyll's
 When using Jekyll's `pretty` url template, URLs will look like this:
 
 ```
-/site_updates/en/2015/01/17/moving-to-a-multi-language-site/index.html
+/site_updates/en/2015/01/17/moving-to-a-multilingual-site/index.html
 /site_updates/de/2015/01/17/umzug-in-eine-mehrsprachige-website/index.html
 ```
 
@@ -134,7 +136,7 @@ This practice should work for RSS feeds and anything that works with the post lo
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/octopress-multi-language/fork )
+1. Fork it ( https://github.com/[my-github-username]/octopress-multilingual/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)

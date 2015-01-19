@@ -1,4 +1,4 @@
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in octopress-multi-language.gemspec
+# Specify your gem's dependencies in octopress-multilingual.gemspec
 gemspec

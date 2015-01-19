@@ -1,15 +1,15 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'octopress-multi-language/version'
+require 'octopress-multilingual/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "octopress-multi-language"
-  spec.version       = Octopress::MultiLanguage::VERSION
+  spec.name          = "octopress-multilingual"
+  spec.version       = Octopress::Multilingual::VERSION
   spec.authors       = ["Brandon Mathis"]
   spec.email         = ["brandon@imathis.com"]
-  spec.summary       = %q{Add multiple language features to your blog}
-  spec.homepage      = "https://github.com/octopress/multi-language"
+  spec.summary       = %q{Add multiple language features to your Jekyll site.}
+  spec.homepage      = "https://github.com/octopress/multilingual"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split("\n").grep(%r{^(bin\/|lib\/|assets\/|changelog|readme|license)}i)
