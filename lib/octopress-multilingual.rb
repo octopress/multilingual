@@ -131,3 +131,14 @@ module Jekyll
     end
   end
 end
+
+if defined? Octopress::Docs
+  Octopress::Docs.add({
+    name:        "Octopress Multilingual",
+    gem:         "octopress-multilingual",
+    version:     Octopress::Multilingual::VERSION,
+    description: "",
+    path:        File.expand_path(File.join(File.dirname(__FILE__), "..")),
+    source_url:  "https://github.com/octopress/multilingual"
+  })
+end
