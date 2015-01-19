@@ -3,7 +3,7 @@
 Add multiple language features to your Jekyll site.
 
 [![Build Status](http://img.shields.io/travis/octopress/multilingual.svg)](https://travis-ci.org/octopress/multilingual)
-<!--[![Gem Version](http://img.shields.io/gem/v/octopress-multilingual.svg)](https://rubygems.org/gems/octopress-multilingual)-->
+[![Gem Version](http://img.shields.io/gem/v/octopress-multilingual.svg)](https://rubygems.org/gems/octopress-multilingual)
 [![License](http://img.shields.io/:license-mit-blue.svg)](http://octopress.mit-license.org)
 
 ## Installation
