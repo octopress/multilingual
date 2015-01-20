@@ -61,16 +61,54 @@ module Octopress
     def site_payload(site)
       @site = site
 
-      if main_language
-        {
-          'posts'             => main_language_posts,
-          'posts_by_language' => posts_by_language,
-          'languages'         => languages,
-          'lang'              => main_language
-        }
+      return unless main_language
+
+      payload = {
+        'posts'             => main_language_posts,
+        'posts_by_language' => posts_by_language,
+        'languages'         => languages,
+        'lang'              => main_language
+      }
+
+      if defined? Octopress::Linkblog
+        payload.merge!({
+          'linkposts' => linkposts_by_language[main_language],
+          'articles'  => articles_by_language[main_language],
+          'linkposts_by_language' => linkposts_by_language,
+          'articles_by_language' => articles_by_language
+        })
+      end
+
+      payload
+    end
+
+    def articles_by_language
+      @articles_by_language ||= begin 
+        articles = {}
+
+        languages.each do |lang|
+          articles[lang] = posts_by_language[lang].reject do |p|
+            p.data['linkpost']
+          end
+        end
+
+        articles
       end
     end
 
+    def linkposts_by_language
+      @linkposts_by_language ||= begin 
+        linkposts = {}
+
+        languages.each do |lang|
+          linkposts[lang] = posts_by_language[lang].select do |p|
+            p.data['linkpost']
+          end
+        end
+
+        linkposts
+      end
+    end
 
     class SiteHook < Hooks::Site
       priority :low

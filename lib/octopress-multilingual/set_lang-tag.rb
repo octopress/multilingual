@@ -36,7 +36,13 @@ module Octopress
       end
 
       def set_post_lang(lang)
-        @context.environments.first['site']['posts'] = @lang_posts[lang]
+        site = @context.environments.first['site']
+        site['posts'] = @lang_posts[lang]
+
+        if defined? Octopress::Linkblog
+          site['linkposts'] = site['linkposts_by_language'][lang]
+          site['articles']  = site['articles_by_language'][lang] 
+        end
       end
 
       def set_current_lang(lang)

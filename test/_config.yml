@@ -1,4 +1,5 @@
 timezone: GMT
 gems:
   - octopress-multilingual
+  - octopress-linkblog
 main_language: en
