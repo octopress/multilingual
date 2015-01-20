@@ -1,6 +1,10 @@
 # Changelog
 
-### 0.0.2 (2015-01-18)
+### 0.0.4 (2015-01-18)
+
+- Added support for scoping octopress-linkblog `articles` and `linkposts` loops.
+
+### 0.0.3 (2015-01-18)
 
 - Renamed tag to `{% set_lang %}`.
 

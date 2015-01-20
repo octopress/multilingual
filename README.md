@@ -71,6 +71,8 @@ If you are using Octopress, you can easily create a new post with the language a
 $ octopress new post "Some title" --lang en
 ```
 
+This command will set the post language (in the YAML front-matter) and add it to the `_posts/en` directory.
+
 ### Cross-posting languages
 
 Occasionally you may wish to write a post in a single language and have it show up in other languages indexes and feeds. This can be done in your post's YAML front-matter:
@@ -131,6 +133,9 @@ Using the `set_lang` liquid block, you can temporarily switch languages while re
 {{ site.lang }}    # => 'en'
 {{ site.posts }}   # => English posts 
 ```
+
+If you have the [octopress-linkblog](https://github.com/octopress/linkblog) plugin installed, this will also change scope for your
+`site.articles` and `site.linkposts` loops.
 
 ## Post Indexes and RSS Feeds
 
