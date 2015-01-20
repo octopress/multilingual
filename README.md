@@ -151,7 +151,7 @@ example, `_includes/post-index.html`. It might look this:
 ```
 {% set_lang page.lang %}
 {% for post in site.posts %}...{% endfor %}
-{% endpost_lang %}
+{% endset_lang %}
 ```
 
 Set the page language to German and include the same partial.
