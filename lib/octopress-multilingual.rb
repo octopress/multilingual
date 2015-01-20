@@ -61,25 +61,28 @@ module Octopress
     def site_payload(site)
       @site = site
 
-      return unless main_language
+      if defined?(Octopress::Docs) && Octopress::Docs.enabled?
+        {}
+      else
+        return unless main_language
 
-      payload = {
-        'posts'             => main_language_posts,
-        'posts_by_language' => posts_by_language,
-        'languages'         => languages,
-        'lang'              => main_language
-      }
+          payload = {
+            'posts'             => main_language_posts,
+            'posts_by_language' => posts_by_language,
+            'languages'         => languages,
+            'lang'              => main_language
+          }
 
-      if defined? Octopress::Linkblog
-        payload.merge!({
-          'linkposts' => linkposts_by_language[main_language],
-          'articles'  => articles_by_language[main_language],
-          'linkposts_by_language' => linkposts_by_language,
-          'articles_by_language' => articles_by_language
-        })
+        if defined? Octopress::Linkblog
+          payload.merge!({
+            'linkposts' => linkposts_by_language[main_language],
+            'articles'  => articles_by_language[main_language],
+            'linkposts_by_language' => linkposts_by_language,
+            'articles_by_language' => articles_by_language
+          })
+        end
+        payload
       end
-
-      payload
     end
 
     def articles_by_language
@@ -175,7 +178,7 @@ if defined? Octopress::Docs
     name:        "Octopress Multilingual",
     gem:         "octopress-multilingual",
     version:     Octopress::Multilingual::VERSION,
-    description: "",
+    description: "Add multilingual features to your Jekyll site",
     path:        File.expand_path(File.join(File.dirname(__FILE__), "..")),
     source_url:  "https://github.com/octopress/multilingual"
   })

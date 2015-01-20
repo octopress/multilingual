@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.0.5 (2015-01-19)
+
+- Improved integration with Octopress docs
+
 ### 0.0.4 (2015-01-19)
 
 - Added support for scoping octopress-linkblog `articles` and `linkposts` loops.
