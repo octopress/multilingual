@@ -27,13 +27,13 @@ module Octopress
 
     def posts_by_language
       @posts_by_language ||= begin 
-        posts = site.posts.select(&:lang).group_by(&:lang) \
+        posts = site.posts.reverse.select(&:lang).group_by(&:lang) \
         ## Add posts that crosspost to all languages
         .each do |lang, posts|
           if lang == main_language
             posts.clear.concat(main_language_posts)
           else
-            posts.concat(crossposts).sort_by(&:date)
+            posts.concat(crossposts).sort_by(&:date).reverse
           end
         end
         posts
@@ -41,14 +41,14 @@ module Octopress
     end
 
     def main_language_posts
-      site.posts.reject do |post|
+      site.posts.reverse.reject do |post|
         post.lang && post.lang != main_language
       end
     end
 
     def crossposts
       @cross_posts ||= begin
-        posts = site.posts.select do |post|
+        posts = site.posts.reverse.select do |post|
           post.data['crosspost_languages']
         end
       end
