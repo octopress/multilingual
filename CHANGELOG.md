@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.0.6 (2015-01-20)
+
+- Reversed post order (as it should be)
+
 ### 0.0.5 (2015-01-19)
 
 - Improved integration with Octopress docs
