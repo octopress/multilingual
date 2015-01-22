@@ -8,12 +8,12 @@ module Octopress
     attr_accessor :site, :posts
 
     def main_language
-      if @lang ||= site.config['main_language']
+      if @lang ||= site.config['lang']
         @lang.downcase
       else
         abort "Build canceled by Octopress Multilingual.\n".red \
              << "Your Jekyll site configuration must have a main language. For example:\n\n" \
-             << "  main_language: en\n\n"
+             << "  lang: en\n\n"
       end
     end
 
@@ -30,12 +30,13 @@ module Octopress
         posts = site.posts.reverse.select(&:lang).group_by(&:lang) \
         ## Add posts that crosspost to all languages
         .each do |lang, posts|
-          if lang == main_language
-            posts.clear.concat(main_language_posts)
-          else
+          if lang != main_language
             posts.concat(crossposts).sort_by(&:date).reverse
           end
         end
+
+        posts[main_language] = main_language_posts
+
         posts
       end
     end
@@ -69,8 +70,7 @@ module Octopress
           payload = {
             'posts'             => main_language_posts,
             'posts_by_language' => posts_by_language,
-            'languages'         => languages,
-            'lang'              => main_language
+            'languages'         => languages
           }
 
         if defined? Octopress::Linkblog

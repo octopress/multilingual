@@ -38,7 +38,7 @@ problem with an Octopress plugin supporting your multilingual site, please file 
 
 When adding this plugin to your site, you will need to:
 
-1. Configure your site's main language, e.g. `main_language: en`.
+1. Configure your site's main language, e.g. `lang: en`.
 2. Add a language to the YAML front-matter of your posts, e.g. `lang: de`.
 3. Add new RSS feeds and post indexes for secondary languages.
 
@@ -51,7 +51,7 @@ Note: This guide will only cover the steps listed above. Your site may still hav
 First, be sure to configure your Jekyll site's main language, for example:
 
 ```yaml
-main_language: en
+lang: en
 ```
 
 Here we are setting the default language to English. Posts without a defined language will be treated as English posts.

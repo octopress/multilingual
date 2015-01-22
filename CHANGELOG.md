@@ -1,5 +1,10 @@
 # Changelog
 
+### 0.0.7 (2015-01-21)
+
+- Fix: If no posts had been defined with the main language, posts would disappear. Most embarrassing.
+- Change: instead of `site.main_language`, now using `site.lang`.
+
 ### 0.0.6 (2015-01-20)
 
 - Reversed post order (as it should be)

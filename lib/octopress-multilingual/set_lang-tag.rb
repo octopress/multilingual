@@ -12,7 +12,7 @@ module Octopress
         @context     = context
         @languages   = @context['site.languages']
         @lang_posts  = @context['site.posts_by_language']
-        main_lang   = @context['site.main_language']
+        main_lang   = @context['site.lang']
 
         # Render with new posts context
         if lang
