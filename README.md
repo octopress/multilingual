@@ -48,13 +48,16 @@ Note: This guide will only cover the steps listed above. Your site may still hav
 
 ## Configuration
 
-First, be sure to configure your Jekyll site's main language, for example:
+You can  for standard language codes.
+
+First, be sure to configure your Jekyll site's main language. An site written primarily in English would add this to its Jekyll configuration:
 
 ```yaml
 lang: en
 ```
 
 Here we are setting the default language to English. Posts without a defined language will be treated as English posts.
+For a list of standard language codes, refer to [ISO 639-1](http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes).
 
 ## Defining a post's language
 
