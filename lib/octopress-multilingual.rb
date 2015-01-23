@@ -16,10 +16,6 @@ module Octopress
              << "  lang: en\n\n"
       end
     end
-
-    def site
-      @site
-    end
     
     def languages
       posts_by_language.keys
@@ -59,29 +55,29 @@ module Octopress
       @posts_without_lang ||= site.reject(&:lang)
     end
 
-    def site_payload(site)
-      @site = site
-
+    def site_payload
       if defined?(Octopress::Docs) && Octopress::Docs.enabled?
         {}
       else
         return unless main_language
 
+        @payload ||= begin
           payload = {
             'posts'             => main_language_posts,
             'posts_by_language' => posts_by_language,
             'languages'         => languages
           }
 
-        if defined? Octopress::Linkblog
-          payload.merge!({
-            'linkposts' => linkposts_by_language[main_language],
-            'articles'  => articles_by_language[main_language],
-            'linkposts_by_language' => linkposts_by_language,
-            'articles_by_language' => articles_by_language
-          })
+          if defined? Octopress::Linkblog
+            payload.merge!({
+              'linkposts' => linkposts_by_language[main_language],
+              'articles'  => articles_by_language[main_language],
+              'linkposts_by_language' => linkposts_by_language,
+              'articles_by_language' => articles_by_language
+            })
+          end
+          payload
         end
-        payload
       end
     end
 
@@ -113,6 +109,14 @@ module Octopress
       end
     end
 
+    class SiteHookRead < Hooks::Site
+      priority :high
+      # Generate site_payload so other plugins can access 
+      def post_read(site)
+        Octopress::Multilingual.site = site 
+      end
+    end
+
     class SiteHook < Hooks::Site
       priority :low
 
@@ -126,7 +130,7 @@ module Octopress
         #
         
         { 
-          'site' => Octopress::Multilingual.site_payload(site),
+          'site' => Octopress::Multilingual.site_payload,
         }
       end
     end
@@ -170,6 +174,29 @@ module Jekyll
         :lang => lang
       })
     end
+
+    def next
+      language = lang || site.config['lang']
+      posts = Octopress::Multilingual.posts_by_language[language] 
+      pos = posts.index {|post| post.equal?(self) }
+      if pos && pos < posts.length - 1
+        posts[pos + 1]
+      else
+        nil
+      end
+    end
+
+    def previous
+      language = lang || site.config['lang']
+      posts = Octopress::Multilingual.posts_by_language[language] 
+      pos = posts.index {|post| post.equal?(self) }
+      if pos && pos > 0
+        posts[pos - 1]
+      else
+        nil
+      end
+    end
+    
   end
 end
 

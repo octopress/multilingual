@@ -5,5 +5,4 @@ lang: de
 permalink: /:lang/:title/
 external-url: http://example.com
 ---
-
 Dies wird in deutscher Sprache.
