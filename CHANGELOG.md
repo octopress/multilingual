@@ -1,5 +1,8 @@
 # Changelog
 
+### 0.0.8 (2015-01-21)
+- Fix: on posts, page.next and page.previous follow post language
+
 ### 0.0.7 (2015-01-21)
 
 - Fix: If no posts had been defined with the main language, posts would disappear. Most embarrassing.
