@@ -42,7 +42,7 @@ When adding this plugin to your site, you will need to:
 2. Add a language to the YAML front-matter of your posts, e.g. `lang: de`.
 3. Add new RSS feeds and post indexes for secondary languages.
 
-Read on and I'll try to walk you through setting up your multilingual site. 
+Read on and I'll try to walk you through setting up your multilingual site.
 
 Note: This guide will only cover the steps listed above. Your site may still have some plugins which are not designed for multilingual sites. If you are using plugins (like a category index generator) which create pages from your site's posts, they may need to be modified or removed. Modifying plugins is beyond the scope of this guide.
 
@@ -61,10 +61,10 @@ For a list of standard language codes, refer to [ISO 639-1](http://en.wikipedia.
 
 ## Defining a post's language
 
-Posts should specify their language in the YAML front matter. 
+Posts should specify their language in the YAML front matter.
 
 ```yaml
-title: "Ein Nachdenklich Beitrag"
+title: "Ein nachdenklicher Beitrag"
 lang: de
 ```
 
@@ -81,7 +81,7 @@ This command will set the post language (in the YAML front-matter) and add it to
 Occasionally you may wish to write a post in a single language and have it show up in other languages indexes and feeds. This can be done in your post's YAML front-matter:
 
 ```
-title: "Ein Nachdenklich Beitrag"
+title: "Ein nachdenklicher Beitrag"
 lang: de
 crosspost_languages: true
 ```
@@ -126,15 +126,15 @@ Using the `set_lang` liquid block, you can temporarily switch languages while re
 
 ```
 {{ site.lang }}    # => 'en'
-{{ site.posts }}   # => English posts 
+{{ site.posts }}   # => English posts
 
 {% set_lang de %}
   {{ site.lang }}  # => 'de'
-  {{ site.posts }} # => German posts 
+  {{ site.posts }} # => German posts
 {% endset_lang %}
 
 {{ site.lang }}    # => 'en'
-{{ site.posts }}   # => English posts 
+{{ site.posts }}   # => English posts
 ```
 
 If you have the [octopress-linkblog](https://github.com/octopress/linkblog) plugin installed, this will also change scope for your
