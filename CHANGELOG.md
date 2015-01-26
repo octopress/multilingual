@@ -1,5 +1,8 @@
 # Changelog
 
+### 0.0.9 (2015-01-25)
+- Fix: Language cross-posts are now properly sorted. Thanks @drallgood, via [#6](https://github.com/octopress/multilingual/pull/6).
+
 ### 0.0.8 (2015-01-21)
 - Fix: on posts, page.next and page.previous follow post language
 
