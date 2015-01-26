@@ -27,7 +27,7 @@ module Octopress
         ## Add posts that crosspost to all languages
         .each do |lang, posts|
           if lang != main_language
-            posts.concat(crossposts).sort_by(&:date).reverse
+            posts.concat(crossposts).sort_by!(&:date).reverse!
           end
         end
 
