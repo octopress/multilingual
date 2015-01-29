@@ -34,6 +34,8 @@ Then add the gem to your Jekyll configuration.
 plugins are being designed to support multilingual features, but without a standard, some use-cases may be overlooked. If you have a
 problem with an Octopress plugin supporting your multilingual site, please file an issue and we'll do our best to address it.
 
+Also, if you are using flags to represent languages on your site, [Why flags do not represent language](http://flagsarenotlanguages.com/blog/why-flags-do-not-represent-language/) is a good read.
+
 ## Setting up a multilingual site
 
 When adding this plugin to your site, you will need to:
