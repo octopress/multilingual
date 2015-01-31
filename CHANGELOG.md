@@ -1,5 +1,10 @@
 # Changelog
 
+### 0.1.0 (2015-01-30)
+- Change: No longer filters `site.posts` at all.
+- Change: Posts are automatically filtered based on `page.lang`.
+- Docs have been improved quite a bit.
+
 ### 0.0.9 (2015-01-25)
 - Fix: Language cross-posts are now properly sorted. Thanks @drallgood, via [#6](https://github.com/octopress/multilingual/pull/6).
 
