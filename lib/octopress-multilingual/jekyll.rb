@@ -23,9 +23,6 @@ module Jekyll
   class Page
     def lang
       if data['lang']
-        if data['lang'].downcase == 'default'
-          data['lang'] == site.lang
-        end
         data['lang'].downcase
       end
     end

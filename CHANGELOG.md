@@ -1,5 +1,8 @@
 # Changelog
 
+### 0.1.1 (2015-01-30)
+- Fix: On pages, `lang: default` now defaults to `site.lang`.
+
 ### 0.1.0 (2015-01-30)
 - Change: No longer filters `site.posts` at all.
 - Change: Posts are automatically filtered based on `page.lang`.

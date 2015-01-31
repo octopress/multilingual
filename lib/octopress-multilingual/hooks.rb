@@ -22,6 +22,12 @@ module Octopress
     class PagePayloadHook < Hooks::All
       priority :high
 
+      def post_init(item)
+        if item.lang == 'default'
+          item.data['lang'] = item.site.config['lang']
+        end
+      end
+
       # Swap out post arrays with posts of the approrpiate language
       #
       def merge_payload(payload, item)
