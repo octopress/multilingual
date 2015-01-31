@@ -1,6 +1,10 @@
 # Octopress Multilingual
 
-Add multiple language features to your Jekyll site.
+Add multiple language features to your Jekyll site. This plugin makes it easy to:
+
+- Add language-specific post indexes, archives, and RSS feeds.
+- Set language based permalinks. 
+- Cross-post between languages.
 
 [![Build Status](http://img.shields.io/travis/octopress/multilingual.svg)](https://travis-ci.org/octopress/multilingual)
 [![Gem Version](http://img.shields.io/gem/v/octopress-multilingual.svg)](https://rubygems.org/gems/octopress-multilingual)
@@ -30,27 +34,21 @@ Then add the gem to your Jekyll configuration.
 
 ## An important note
 
-**There is not a Jekyll standard for multilingual sites** and many plugins will not work properly with this setup. Octopress and it's
+**There is no Jekyll standard for multilingual sites** and many plugins will not work properly with this setup. Octopress and it's
 plugins are being designed to support multilingual features, but without a standard, some use-cases may be overlooked. If you have a
 problem with an Octopress plugin supporting your multilingual site, please file an issue and we'll do our best to address it.
 
-Also, if you are using flags to represent languages on your site, [Why flags do not represent language](http://flagsarenotlanguages.com/blog/why-flags-do-not-represent-language/) is a good read.
+Note: First-party Octopress plugins are designed to support multilingual sites but other plugins may not work how you'd expect on multilingual sites. Modifying plugins is beyond the scope of this guide.
 
-## Setting up a multilingual site
+Also, if you are using flags to represent languages on your site, you might like to read, [Why flags do not represent language](http://flagsarenotlanguages.com/blog/why-flags-do-not-represent-language/).
+
+## Setup
 
 When adding this plugin to your site, you will need to:
 
 1. Configure your site's main language, e.g. `lang: en`.
 2. Add a language to the YAML front-matter of your posts, e.g. `lang: de`.
 3. Add new RSS feeds and post indexes for secondary languages.
-
-Read on and I'll try to walk you through setting up your multilingual site.
-
-Note: This guide will only cover the steps listed above. Your site may still have some plugins which are not designed for multilingual sites. If you are using plugins (like a category index generator) which create pages from your site's posts, they may need to be modified or removed. Modifying plugins is beyond the scope of this guide.
-
-## Configuration
-
-You can  for standard language codes.
 
 First, be sure to configure your Jekyll site's main language. An site written primarily in English would add this to its Jekyll configuration:
 
@@ -59,36 +57,86 @@ lang: en
 ```
 
 Here we are setting the default language to English. Posts without a defined language will be treated as English posts.
-For a list of standard language codes, refer to [ISO 639-1](http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes).
+For a list of standard language codes, refer to [ISO 639-1](http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes). You can also use
+the [language]-[region] method of setting your site's language, like `en-us` for American English or `de-at` for Austrian German.
 
-## Defining a post's language
+### Setting a language for pages or posts
 
-Posts should specify their language in the YAML front matter.
+Specify a page or post's language in the YAML front matter.
 
 ```yaml
 title: "Ein nachdenklicher Beitrag"
 lang: de
 ```
 
-If you are using Octopress, you can easily create a new post with the language already site like this:
+With Octopress, you can do this automatically from the command line when creating posts, drafts, or pages.
 
 ```
 $ octopress new post "Some title" --lang en
+$ octopress new draft "Some title" --lang en
+$ octopress new page de/index.html --lang de
 ```
 
-This command will set the post language (in the YAML front-matter) and add it to the `_posts/en` directory.
+This command will set the language (in the YAML front-matter) and posts will be created in `_posts/[lang]/[post-file]`.
+
+## Indexes, RSS feeds and Archives.
+
+If you are writing English and German posts, you'll want an English-only and a German-only post index. To do that, just set the
+language in the YAML front-matter of your post-index. 
+
+For example, this will loop through only German posts:
+
+```
+---
+lang: de
+---
+{% for post in site.posts %} ... {% endfor %}
+```
+
+And this will loop through only English posts:
+
+```
+---
+lang: en
+---
+{% for post in site.posts %} ... {% endfor %}
+```
+
+If your default post index is at `/index.html` you should create additional indexes for each secondary language. If your secondary language is German, create a posts index at `/de/index.html`.
+
+How does it work? First this plugin groups all of your posts by language. Then at build time, any page with a language defined will
+have its posts filtered to display only matching languages. If your site uses [octopress-linkblog](https://github.com/octopress/linkblog) to publish link-posts, your `site.articles` and `site.linkposts` will be filtered as well.
+
+This same approach will let you create language-specific RSS feeds and post archives. If you are using [octopress-feeds](https://github.com/octopress/feeds), the default RSS feeds will automatically use your default `site.lang` defined language and you can easily create additional RSS feeds for additional languages.
+
+## Reference posts by language
+
+All posts are grouped by language and can be accessed directly with `site.posts_by_language`. For example:
+
+```
+{% for post in site.posts_by_language.de %}  # German posts
+{% for post in site.posts_by_language.en %}  # English posts
+```
+
+If you have [octopress-linkblog](https://github.com/octopress/linkblog) installed, you can access groups of link-posts and articles too.
+
+```
+{% for post in site.linkposts_by_language.de %}  # German linkposts
+{% for post in site.articles_by_language.de %}   # German articles
+```
 
 ### Cross-posting languages
 
-Occasionally you may wish to write a post in a single language and have it show up in other languages indexes and feeds. This can be done in your post's YAML front-matter:
+If you would like to write a post which shows up in indexes and feeds for every language, set `lang: all` in your post's YAML
+front-matter.
 
 ```
 title: "Ein nachdenklicher Beitrag"
-lang: de
-crosspost_languages: true
+lang: all
 ```
 
-If your site has language-specific feeds or post indexes, a post with this setting will show up in all of them. However, it isn't duplicated. It will still have one canonical URL.
+This post will show up with every language. However, it will be treated exactly like a post written in your
+site's default language and will have one canonical URL. Even `{{ post.lang }}` will return your default language instead of `all`.
 
 ### Language in permalinks
 
@@ -120,100 +168,39 @@ ordinal => /:lang/:categories/:year/:y_day/:title.html
 
 If you don't want language to appear in your URLs, you must configure your own permalinks without `:lang`.
 
-## Changing language scope
 
-This plugin modifies your site's post list. The `site.posts` array **will not contain every post**, but only posts defined with your site's main language or with no language defined.
+## Temporary language scoping
 
 Using the `set_lang` liquid block, you can temporarily switch languages while rendering a portion of your site. For example:
 
 ```
-{{ site.lang }}    # => 'en'
-{{ site.posts }}   # => English posts
+{{ page.lang }}    # => 'en'
+{{ site.posts }}   # => All posts
 
 {% set_lang de %}
-  {{ site.lang }}  # => 'de'
+  {{ page.lang }}  # => 'de'
   {{ site.posts }} # => German posts
 {% endset_lang %}
 
-{{ site.lang }}    # => 'en'
-{{ site.posts }}   # => English posts
+{{ page.lang }}    # => 'en'
+{{ site.posts }}   # => All posts
 ```
 
-If you have the [octopress-linkblog](https://github.com/octopress/linkblog) plugin installed, this will also change scope for your
+The `set_lang` tag will also accept variables, for example:
+
+```
+{% assign lang = 'de' %}
+{% set_lang lang %}   # equivilent to {% set_lang de %}
+
+# On some page
+{% include some_partial.html lang='de' %}
+
+# In _includes/some_partial.html
+{% set_lang include.lang %}    # equivilent to {% set_lang de %} 
+```
+
+If you have the [octopress-linkblog](https://github.com/octopress/linkblog) plugin installed, this will also change languages for your
 `site.articles` and `site.linkposts` loops.
-
-## Post Indexes and RSS Feeds
-
-To add multilingual post indexes you can use the `set_lang` tag like this:
-
-```
-{% set_lang de %}
-{% for post in site.posts %}...{% endfor %}
-{% endset_lang %}
-```
-
-If your default post index is at `/index.html` you should create additional indexes for each secondary language. If you're also writing in German, create a posts index at `/de/index.html`.
-
-DRY up your templates by putting post loops in an include, for
-example, `_includes/post-index.html`. It might look this:
-
-<!-- title:"From _includes/post-index.html" -->
-```
-{% set_lang page.lang %}
-{% for post in site.posts %}...{% endfor %}
-{% endset_lang %}
-```
-
-Set the page language to German and include the same partial.
-
-<!-- title:"From /de/index.html" -->
-```
----
-lang: de
----
-{% include post-index.html %}
-```
-
-The `set_lang` tag will read the `page.lang` setting and
-convert the post loop to use German. If `page.lang` were
-`nil` the default language will be used.
-
-If you don't want to set the `lang` for a page, but want to
-use `{% set_lang %}`, that's fine too. It will also work like
-this:
-
-```
-{% include post-index.html lang='de' %}
-
-# Then in the included partial
-{% set_lang include.lang %}
-...
-```
-
-Or even just use a normal post loop on your included file and
-set the language when including the partial.
-
-```
-{% set_lang de %}{% include post-index.html %}{% endset_lang %}
-```
-
-There are lots of ways to use this, but this approach should work for RSS feeds or any template system which works with the post loop.
-
-## Reference posts by language
-
-You may also access secondary languages directly with `site.posts_by_language`.
-
-For example, to loop through the posts written in your main language (or those with no defined language) you would do this:
-
-```
-{% for post in site.posts %}
-```
-
-If you want to loop through the posts from a secondary language — in this case, German — you would want to do this:
-
-```
-{% for post in site.posts_by_language.de %}
-```
 
 ## Contributing
 

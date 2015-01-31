@@ -1,0 +1,21 @@
+---
+lang: en
+---
+
+English: 
+  lang: {{ page.lang }}
+  post: {{ site.posts.last.title }}
+  article: {{ site.articles.last.title }}
+  linkpost: {{ site.linkposts.last.title }}
+
+German:{% set_lang de %}
+  lang: {{ page.lang }}
+  post: {{ site.posts.last.title }}
+  article: {{ site.articles.last.title }}
+  linkpost: {{ site.linkposts.last.title }}{% endset_lang %}
+
+English:
+  lang: {{ page.lang }}
+  post: {{ site.posts.last.title }}
+  article: {{ site.articles.last.title }}
+  linkpost: {{ site.linkposts.last.title }}

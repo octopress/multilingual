@@ -1,11 +1,14 @@
+require 'octopress-hooks'
+
 require "octopress-multilingual/version"
 require "octopress-multilingual/set_lang-tag"
-require 'octopress-hooks'
+require "octopress-multilingual/hooks"
+require "octopress-multilingual/jekyll"
 
 module Octopress
   module Multilingual
     extend self
-    attr_accessor :site, :posts
+    attr_accessor :site
 
     def main_language
       if @lang ||= site.config['lang']
@@ -16,18 +19,19 @@ module Octopress
              << "  lang: en\n\n"
       end
     end
-    
+
     def languages
       posts_by_language.keys
     end
 
     def posts_by_language
-      @posts_by_language ||= begin 
-        posts = site.posts.reverse.select(&:lang).group_by(&:lang) \
+      @posts_by_language ||= begin
+        posts = site.posts.reverse.select(&:lang).group_by(&:lang)
         ## Add posts that crosspost to all languages
-        .each do |lang, posts|
+        
+        posts.each do |lang, lang_posts|
           if lang != main_language
-            posts.concat(crossposts).sort_by!(&:date).reverse!
+            lang_posts.concat(crossposts).sort_by!(&:date).reverse!
           end
         end
 
@@ -37,17 +41,13 @@ module Octopress
       end
     end
 
-    def main_language_posts
-      site.posts.reverse.reject do |post|
-        post.lang && post.lang != main_language
-      end
+    def crossposts
+      site.posts.select(&:language_crosspost)
     end
 
-    def crossposts
-      @cross_posts ||= begin
-        posts = site.posts.reverse.select do |post|
-          post.data['crosspost_languages']
-        end
+    def main_language_posts
+      site.posts.reverse.select do |post|
+        post.lang.nil? || post.lang == main_language
       end
     end
 
@@ -55,34 +55,8 @@ module Octopress
       @posts_without_lang ||= site.reject(&:lang)
     end
 
-    def site_payload
-      if defined?(Octopress::Docs) && Octopress::Docs.enabled?
-        {}
-      else
-        return unless main_language
-
-        @payload ||= begin
-          payload = {
-            'posts'             => main_language_posts,
-            'posts_by_language' => posts_by_language,
-            'languages'         => languages
-          }
-
-          if defined? Octopress::Linkblog
-            payload.merge!({
-              'linkposts' => linkposts_by_language[main_language],
-              'articles'  => articles_by_language[main_language],
-              'linkposts_by_language' => linkposts_by_language,
-              'articles_by_language' => articles_by_language
-            })
-          end
-          payload
-        end
-      end
-    end
-
     def articles_by_language
-      @articles_by_language ||= begin 
+      @articles_by_language ||= begin
         articles = {}
 
         languages.each do |lang|
@@ -96,7 +70,7 @@ module Octopress
     end
 
     def linkposts_by_language
-      @linkposts_by_language ||= begin 
+      @linkposts_by_language ||= begin
         linkposts = {}
 
         languages.each do |lang|
@@ -109,96 +83,44 @@ module Octopress
       end
     end
 
-    class SiteHookRead < Hooks::Site
-      priority :high
-      # Generate site_payload so other plugins can access 
-      def post_read(site)
-        Octopress::Multilingual.site = site 
+    def page_payload(lang)
+      payload = { 'posts' => posts_by_language[lang] }
+
+      # If the octopress-linkblog plugin is installed swap out articles and linkposts
+      #
+      if defined? Octopress::Linkblog
+        payload['linkposts'] = linkposts_by_language[lang]
+        payload['articles']  = articles_by_language[lang]
       end
+
+      payload
     end
 
-    class SiteHook < Hooks::Site
-      priority :low
+    def site_payload
+      # Skip when when showing documentation site
+      if defined?(Octopress::Docs) && Octopress::Docs.enabled?
+        {}
+      else
+        return unless main_language
 
-      def merge_payload(payload, site)
+        @payload ||= begin
+          payload = {
+            'posts_by_language' => posts_by_language,
+            'languages'         => languages
+          }
 
-        # Group posts by language, { 'en_post' => [posts,..] }
-        #
+          if defined? Octopress::Linkblog
+            payload['linkposts_by_language'] = linkposts_by_language
+            payload['articles_by_language']  = articles_by_language
+          end
 
-        # Ensure that posts without an assigned language
-        # appear in each language's feed
-        #
-        
-        { 
-          'site' => Octopress::Multilingual.site_payload,
-        }
-      end
-    end
-  end
-end
-
-module Jekyll
-  class URL
-    def generate_url(template)
-      @placeholders.inject(template) do |result, token|
-        break result if result.index(':').nil? 
-        if token.last.nil?
-          result.gsub(/\/:#{token.first}/, '')
-        else
-          result.gsub(/:#{token.first}/, self.class.escape_path(token.last))
+          payload
         end
       end
     end
   end
-
-  class Post
-    alias :template_orig :template
-    alias :url_placeholders_orig :url_placeholders 
-    
-    def template
-      template = template_orig
-
-      if [:pretty, :none, :date, :ordinal].include? site.permalink_style
-        template = File.join('/:lang', template)
-      end
-
-      template
-    end
-
-    def lang
-      data['lang'].downcase if data['lang'] 
-    end
-
-    def url_placeholders
-      url_placeholders_orig.merge({
-        :lang => lang
-      })
-    end
-
-    def next
-      language = lang || site.config['lang']
-      posts = Octopress::Multilingual.posts_by_language[language] 
-      pos = posts.index {|post| post.equal?(self) }
-      if pos && pos < posts.length - 1
-        posts[pos + 1]
-      else
-        nil
-      end
-    end
-
-    def previous
-      language = lang || site.config['lang']
-      posts = Octopress::Multilingual.posts_by_language[language] 
-      pos = posts.index {|post| post.equal?(self) }
-      if pos && pos > 0
-        posts[pos - 1]
-      else
-        nil
-      end
-    end
-    
-  end
 end
+
 
 if defined? Octopress::Docs
   Octopress::Docs.add({
