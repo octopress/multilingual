@@ -1,5 +1,8 @@
 # Changelog
 
+### 0.1.4 (2015-02-01)
+- Cross-post languages with `lang_crosspost: true` in a post's YAML front-matter.
+
 ### 0.1.3 (2015-01-31)
 - Fix: 'default' language maps to site.lang.
 - Fix: Issue with access to site instance.
