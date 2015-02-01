@@ -1,6 +1,6 @@
 # Changelog
 
-### 0.1.2 (2015-01-31)
+### 0.1.3 (2015-01-31)
 - Fix: 'default' language maps to site.lang.
 - Fix: Issue with access to site instance.
 
