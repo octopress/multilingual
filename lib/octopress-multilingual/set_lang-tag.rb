@@ -34,34 +34,19 @@ module Octopress
       #
       def set_lang(lang)
         @context.environments.first['page']['lang'] = lang
-        site = @context.environments.first['site']
-        site['posts'] = site['posts_by_language'][lang]
-
-        if defined? Octopress::Linkblog
-          site['linkposts'] = site['linkposts_by_language'][lang]
-          site['articles']  = site['articles_by_language'][lang] 
+        Multilingual.page_payload(lang).each do |key,value| 
+          @context.environments.first['site'][key] = value
         end
       end
 
       def store_state
         @current_lang       = @context['page.lang']
-        @posts              = @context['site.posts']
-
-        if defined? Octopress::Linkblog
-          @articles         = @context['site.articles']
-          @links            = @context['site.linkposts']
-        end
+        @site               = @context['site'].clone
       end
 
       def restore_state
         @context.environments.first['page']['lang'] = @current_lang
-        site = @context.environments.first['site']
-        site['posts'] = @posts
-
-        if defined? Octopress::Linkblog
-          site['linkposts'] = @links
-          site['articles']  = @articles
-        end
+        @context.environments.first['site'] = @site
       end
 
       def lang

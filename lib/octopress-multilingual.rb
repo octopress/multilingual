@@ -88,16 +88,19 @@ module Octopress
     end
 
     def page_payload(lang)
-      payload = { 'posts' => posts_by_language[lang] }
+      { 
+        'posts'     => posts_by_language[lang],
+        'linkposts' => linkposts_by_language[lang],
+        'articles'  => articles_by_language[lang]
+      }
+    end
 
-      # If the octopress-linkblog plugin is installed swap out articles and linkposts
-      #
-      if defined? Octopress::Linkblog
-        payload['linkposts'] = linkposts_by_language[lang]
-        payload['articles']  = articles_by_language[lang]
-      end
-
-      payload
+    def set_lang_payload(lang)
+      payload = page_payload(lang)
+      { 
+        'page' => { 'lang'=>lang },
+        'site' => payload 
+      }
     end
 
     def site_payload
