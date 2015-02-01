@@ -20,6 +20,10 @@ module Octopress
       end
     end
 
+    def site
+      @site ||= Octopress.site
+    end
+
     def languages
       posts_by_language.keys
     end

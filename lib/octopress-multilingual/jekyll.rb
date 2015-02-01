@@ -42,7 +42,8 @@ module Jekyll
     alias :permalink_orig :permalink
 
     def lang
-      if data['lang']
+      if lang = data['lang']
+        data['lang'] = site.config['lang'] if lang == 'default'
         data['lang'].downcase
       end
     end
