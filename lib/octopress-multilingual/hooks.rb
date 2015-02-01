@@ -1,19 +1,13 @@
 module Octopress
   module Multilingual
-    class SiteHookRead < Hooks::Site
+    class SiteHook < Hooks::Site
       priority :high
       # Generate site_payload so other plugins can access
       def post_read(site)
         Octopress::Multilingual.site = site
+        site.config['languages'] = site.languages
       end
-    end
 
-    class SiteHook < Hooks::Site
-      # Use a low priority so that other hooks can act on posts
-      # without having to be designed for mutlilingual sites.
-      priority :high
-
-      #
       def merge_payload(payload, site)
         { 'site' => Octopress::Multilingual.site_payload }
       end

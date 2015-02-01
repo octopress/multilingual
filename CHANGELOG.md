@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.1.2 (2015-01-31)
+- Now pages can use the /:lang/ permalink placeholder.
+- New site methods: `posts_by_language`, `articles_by_language`, `linkposts_by_language`, `languages`.
+
 ### 0.1.1 (2015-01-30)
 - Fix: On pages, `lang: default` now defaults to `site.lang`.
 

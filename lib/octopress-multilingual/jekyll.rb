@@ -12,6 +12,24 @@ module Jekyll
     end
   end
 
+  class Site
+    def languages
+      Octopress::Multilingual.languages
+    end
+
+    def posts_by_language
+      Octopress::Multilingual.posts_by_language
+    end
+
+    def articles_by_language
+      Octopress::Multilingual.articles_by_language
+    end
+
+    def linkposts_by_language
+      Octopress::Multilingual.linkposts_by_language
+    end
+  end
+
   class Document
     def lang
       if data['lang']
@@ -21,9 +39,18 @@ module Jekyll
   end
 
   class Page
+    alias :permalink_orig :permalink
+
     def lang
       if data['lang']
         data['lang'].downcase
+      end
+    end
+
+    def permalink
+      if permalink = permalink_orig
+        data['permalink'].sub!(/:lang/, lang)
+        permalink.sub(/:lang/, lang)
       end
     end
   end
@@ -57,7 +84,6 @@ module Jekyll
     end
 
     def url_placeholders
-
       url_placeholders_orig.merge({
         :lang => lang
       })

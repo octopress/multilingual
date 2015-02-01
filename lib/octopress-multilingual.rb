@@ -103,19 +103,12 @@ module Octopress
       else
         return unless main_language
 
-        @payload ||= begin
-          payload = {
-            'posts_by_language' => posts_by_language,
-            'languages'         => languages
-          }
-
-          if defined? Octopress::Linkblog
-            payload['linkposts_by_language'] = linkposts_by_language
-            payload['articles_by_language']  = articles_by_language
-          end
-
-          payload
-        end
+        @payload ||= {
+          'posts_by_language'     => posts_by_language,
+          'linkposts_by_language' => linkposts_by_language,
+          'articles_by_language'  => articles_by_language,
+          'languages'             => languages
+        }
       end
     end
   end
