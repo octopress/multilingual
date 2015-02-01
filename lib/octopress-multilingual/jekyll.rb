@@ -72,16 +72,12 @@ module Jekyll
 
     def lang
       if data['lang']
-        if data['lang'].downcase == 'all'
-          @language_crosspost = true
-          data['lang'] = site.config['lang']
-        end
         data['lang'].downcase
       end
     end
 
-    def language_crosspost
-      @language_crosspost if lang
+    def crosspost_languages
+      data['lang_crosspost']
     end
 
     def url_placeholders

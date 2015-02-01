@@ -127,16 +127,16 @@ If you have [octopress-linkblog](https://github.com/octopress/linkblog) installe
 
 ### Cross-posting languages
 
-If you would like to write a post which shows up in indexes and feeds for every language, set `lang: all` in your post's YAML
-front-matter.
+If you would like to write a post which shows up in indexes and feeds for every language, set `lang_crosspost: true` in your post's YAML front-matter.
 
 ```
 title: "Ein nachdenklicher Beitrag"
-lang: all
+lang: de
+lang_crosspost: true
 ```
 
-This post will show up with every language. However, it will be treated exactly like a post written in your
-site's default language and will have one canonical URL. Even `{{ post.lang }}` will return your default language instead of `all`.
+This post will show up with every language. However, it will be treated exactly like a post written in German
+and will have one canonical URL.
 
 ### Language in permalinks
 

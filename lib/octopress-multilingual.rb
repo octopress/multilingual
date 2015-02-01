@@ -46,7 +46,7 @@ module Octopress
     end
 
     def crossposts
-      site.posts.select(&:language_crosspost)
+      site.posts.select(&:crosspost_languages)
     end
 
     def main_language_posts
@@ -92,14 +92,6 @@ module Octopress
         'posts'     => posts_by_language[lang],
         'linkposts' => linkposts_by_language[lang],
         'articles'  => articles_by_language[lang]
-      }
-    end
-
-    def set_lang_payload(lang)
-      payload = page_payload(lang)
-      { 
-        'page' => { 'lang'=>lang },
-        'site' => payload 
       }
     end
 
