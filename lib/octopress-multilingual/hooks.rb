@@ -15,7 +15,10 @@ module Octopress
         [site.pages, site.posts].flatten.each do |item|
           if item.translated
             # Access array of translated items via (post/page).translations
-            item.data.merge!({'translations' => item.translations})
+            item.data.merge!({
+                'translations' => item.translations,
+                'translated' => item.translated
+              })
           end
         end
       end

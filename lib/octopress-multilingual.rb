@@ -1,7 +1,9 @@
 require 'octopress-hooks'
+require 'liquid'
 
 require "octopress-multilingual/version"
 require "octopress-multilingual/set_lang-tag"
+require "octopress-multilingual/translation-tag"
 require "octopress-multilingual/hooks"
 require "octopress-multilingual/jekyll"
 require "octopress-multilingual/command"

@@ -1,5 +1,3 @@
-require 'liquid'
-
 module Octopress
   module Multilingual
     class PostsByTag < Liquid::Block
