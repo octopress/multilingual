@@ -48,6 +48,16 @@ module Jekyll
       end
     end
 
+    def translated
+      data['translation_id']
+    end
+
+    def translations
+      if translated
+        @translations ||= Octopress::Multilingual.translated_pages[translated].reject {|p| p == self }
+      end
+    end
+
     def permalink
       if permalink = permalink_orig
         data['permalink'].sub!(/:lang/, lang)
@@ -68,6 +78,16 @@ module Jekyll
       end
 
       template
+    end
+
+    def translated
+      data['translation_id']
+    end
+
+    def translations
+      if translated
+        @translations ||= Octopress::Multilingual.translated_posts[translated].reject {|p| p == self}
+      end
     end
 
     def lang

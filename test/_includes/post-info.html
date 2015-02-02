@@ -2,3 +2,5 @@ Title:    {{ post.title }}
 Language: {{ post.lang }}
 URL:      {{ post.url }}
 Content:  {{ post.content }}
+{% for translation in post.translations %}Translated to: ({{ translation.lang }}) - {{ translation.title }}
+{% endfor %}

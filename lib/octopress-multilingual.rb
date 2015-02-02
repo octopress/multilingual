@@ -4,6 +4,7 @@ require "octopress-multilingual/version"
 require "octopress-multilingual/set_lang-tag"
 require "octopress-multilingual/hooks"
 require "octopress-multilingual/jekyll"
+require "octopress-multilingual/command"
 
 module Octopress
   module Multilingual
@@ -22,6 +23,14 @@ module Octopress
 
     def site
       @site ||= Octopress.site
+    end
+
+    def translated_posts
+      @translated_posts ||= site.posts.reverse.select(&:translated).group_by(&:translated)
+    end
+
+    def translated_pages
+      @translated_pages ||= site.pages.select(&:translated).group_by(&:translated)
     end
 
     def languages

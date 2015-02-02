@@ -8,6 +8,18 @@ module Octopress
         site.config['languages'] = site.languages
       end
 
+      def pre_render(site)
+
+        # Add translation page data to each page or post.
+        #
+        [site.pages, site.posts].flatten.each do |item|
+          if item.translations && !item.translations.empty?
+            # Access array of translated items via (post/page).translations
+            item.data.merge!({'translations' => item.translations})
+          end
+        end
+      end
+
       def merge_payload(payload, site)
         { 'site' => Octopress::Multilingual.site_payload }
       end
@@ -29,6 +41,7 @@ module Octopress
           { 'site' => Octopress::Multilingual.page_payload(item.lang) }
         end
       end
+
     end
   end
 end
