@@ -115,8 +115,7 @@ have its posts filtered to display only matching languages. If your site uses [o
 
 ## Link between translated posts or pages
 
-URLs can change and manually linking to translated posts or pages isn't the best idea. This plugin helps you link posts together using
-a shared translation ID. With [octopress](https://github.com/octopress/octopress), you'll be able to automatically add translation IDs to pages and posts. Then you can reference the array of translations with `post.tranlsations` or `page.translations`. Here's the syntax:
+URLs can change and manually linking to translated posts or pages isn't the best idea. This plugin helps you link posts together using a shared translation ID. With [octopress](https://github.com/octopress/octopress), you'll be able to automatically add translation IDs to pages and posts. Then you can reference the array of translations with `post.tranlsations` or `page.translations`. Here's the syntax:
 
 ```
 $ octopress translate path [path path...]
@@ -129,11 +128,13 @@ example:
 $ octopress translate _posts/2015-02-02-english-post.md _posts/2015-02-02-deutsch-post.md _posts/2015-02-02-espanol-post.md
 ```
 
-This will add `translation_id: fcdbc7e82b45346d67cced3523a2f236` to the YAML front-matter of each of these posts.
-Now you can use the `translations` or `translation_list` tags to list links to translated posts or pages. For example:
+This will add `translation_id: fcdbc7e82b45346d67cced3523a2f236` to the YAML front-matter of each of these posts. There's nothing special about this key except that it is unique. If you want to write your own you can, it'll work just fine.
+
+When you have posts or pages with a `translation_id` you can use the `translations` or `translation_list` tags to list links to translated posts or pages. For example:
 
 ```
-{% translations post %}
+{% translations page %} # On a page/post layout
+{% translations post %} # In a post loop
 
 # Which outputs:
 <a class='translation-link lang-de' href='/de/2015/02/02/deutsch-post'>Deutsch</a>, <a class='translation-link lang-es' href='/es/2015/02/02/espanol-post'>Español</a>
