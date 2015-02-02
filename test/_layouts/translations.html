@@ -1,2 +1,1 @@
-{{ content }}{% for translation in page.translations %}
-Translated to: ({{ translation.lang }}) - {{ translation.title }} {% endfor %}
+{{ content }}{% if page.translated %}Translated to: {% translation_list page %}{% endif %}
