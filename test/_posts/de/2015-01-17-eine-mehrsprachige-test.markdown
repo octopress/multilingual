@@ -5,6 +5,7 @@ lang: de
 layout: translations
 permalink: /:lang/:title/
 external-url: http://example.com
-translation_id: omg
+translation_id: fcdbc7e82b45346d67cced3523a2f236
 ---
+
 Dies wird in deutscher Sprache.

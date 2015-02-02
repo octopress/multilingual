@@ -2,8 +2,9 @@
 title: "A Multi-language Test"
 date: 2015-01-17T19:55:03-00:00
 lang: en
-translation_id: omg
 layout: translations
+translation_id: fcdbc7e82b45346d67cced3523a2f236
 ---
+
 
 This post is written in English.
