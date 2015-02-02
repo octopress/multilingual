@@ -1,5 +1,13 @@
 # Changelog
 
+### 0.2.0 (2015-02-01)
+- Link between posts or pages with a matching `translation_id`.
+- Add translation IDs to posts or pages with `octopress translate <path>`.
+- Check if a post or page has been translated with `[post or page].tranlsated`.
+- Access translated posts or pages with `[post or page].tranlsations`.
+- New tags `{% translations [post or page] %}` and `{% translation_list [post or page] %}` for generating links to translated posts.
+- Convert language codes to language names with filter `{{ de | language_name }}`.
+
 ### 0.1.4 (2015-02-01)
 - Cross-post languages with `lang_crosspost: true` in a post's YAML front-matter.
 
