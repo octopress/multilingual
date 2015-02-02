@@ -1,0 +1,44 @@
+# Common language names derived from http://en.wikipedia.org/wiki/List_of_ISO_639-1_codes
+#
+# You can add to, or override this list in your Jekyll configuration like this:
+#
+# language_names:
+#   es: Spanish
+#   omg: WTF-BBQ
+#
+#
+en: English
+de: Deutsch
+it: italiano
+jp: 日本語
+cs: čeština
+da: dansk
+nl: Nederlands
+fr: français
+el: ελληνικά
+ga: Gaeilge
+'no': Norsk
+nb: Norsk bokmål
+nn: Norsk nynorsk
+pl: Polszczyzna
+pt: Português
+ro: limba română
+ru: Русский
+gd: Gàidhlig
+sr: српски језик
+sk: Slovenčina
+sl: Slovenščina
+es: Español
+sv: Svenska
+uk: українська мова
+cy: Cymraeg
+ko: 한국어
+kg: Kikongo
+ng: Owambo
+sw: Kiswahili
+zu: isiZulu
+bo: བོད་ཡིག
+tr: Türkçe
+et: eesti
+fi: suomi
+hu: magyar

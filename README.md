@@ -5,7 +5,7 @@ Add multiple language features to your Jekyll site. This plugin makes it easy to
 - Add language-specific post indexes, archives, and RSS feeds.
 - Link between translated posts and pages.
 - Use language in your permalinks. 
-- Cross-post between languages.
+- Cross-post a single post to all languages.
 
 [![Build Status](http://img.shields.io/travis/octopress/multilingual.svg)](https://travis-ci.org/octopress/multilingual)
 [![Gem Version](http://img.shields.io/gem/v/octopress-multilingual.svg)](https://rubygems.org/gems/octopress-multilingual)
@@ -31,7 +31,6 @@ Then add the gem to your Jekyll configuration.
 
     gems:
       - octopress-multilingual
-
 
 ## An important note
 
@@ -70,15 +69,21 @@ title: "Ein nachdenklicher Beitrag"
 lang: de
 ```
 
-With Octopress, you can do this automatically from the command line when creating posts, drafts, or pages.
+You can, refer to a page or post language by `page.lang` or `post.lang`. This plugin adds the filter `language_name` which can convert the language short-name into the native language name. For example:
 
 ```
-$ octopress new post "Some title" --lang en
-$ octopress new draft "Some title" --lang en
-$ octopress new page de/index.html --lang de
+{{ en | language_name }} # English
+{{ de | language_name }} # Deutsch
+{{ es | language_name }} # Español
 ```
 
-This command will set the language (in the YAML front-matter) and posts will be created in `_posts/[lang]/[post-file]`.
+Many common language codes are supported, but you can add to or override these in Jekyll's site configuration:
+
+```
+language_names:
+  es: Spanish
+  omg: WTFBBQ
+```
 
 ## Indexes, RSS feeds and Archives.
 
@@ -121,33 +126,38 @@ This will create a unique key and automatically write it to the YAML front-matte
 example:
 
 ```
-$ octopress translate _posts/2015-02-02-english-post.md _posts/2015-02-02-deutsch-post.md
+$ octopress translate _posts/2015-02-02-english-post.md _posts/2015-02-02-deutsch-post.md _posts/2015-02-02-espanol-post.md
 ```
 
-Here is what the YAML front-matter looks like now for these posts:
+This will add `translation_id: fcdbc7e82b45346d67cced3523a2f236` to the YAML front-matter of each of these posts.
+Now you can use the `translations` or `translation_list` tags to list links to translated posts or pages. For example:
 
 ```
----
-title: This post is written in English
-lang: en
-translation_id: 129dlkj19dj19j1ljd1iu1optva
----
+{% translations post %}
+
+# Which outputs:
+<a class='translation-link lang-de' href='/de/2015/02/02/deutsch-post'>Deutsch</a>, <a class='translation-link lang-es' href='/es/2015/02/02/espanol-post'>Español</a>
+
+# If you prefer a list:
+{% translation_list post %}
+
+# Which ouputs:
+<ul class='translation-list'>
+  <li class='translation-item lang-de'>
+    <a class='translation-link lang-de' href='/de/2015/02/02/deutsch-post'>Deutsch</a>
+  </li>
+  <li class='translation-item lang-es'>
+    <a class='translation-link lang-es' href='/es/2015/02/02/espanol-post'>Español</a>
+  </li>
+</ul>
 ```
 
-```
----
-title: Dies wird in deutscher Sprache
-lang: de
-translation_id: 129dlkj19dj19j1ljd1iu1optva
----
-```
-
-Then in your templates you can loop through the translations like this:
+If you'd rather access translated posts manually, you can loop through the translations like this:
 
 ```
 {% if page.translated %}
   Translations: {% for t in page.translations %}
-    <a href="{{ t.url }}">{{ t.lang }}</a>
+    <a href="{{ t.url }}">{{ t.lang | language_name }}</a>
   {% endfor %}
 {% endif %}
 ```

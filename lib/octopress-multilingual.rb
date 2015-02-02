@@ -2,8 +2,9 @@ require 'octopress-hooks'
 require 'liquid'
 
 require "octopress-multilingual/version"
-require "octopress-multilingual/set_lang-tag"
-require "octopress-multilingual/translation-tag"
+require "octopress-multilingual/set_lang_tag"
+require "octopress-multilingual/translation_tag"
+require "octopress-multilingual/filters"
 require "octopress-multilingual/hooks"
 require "octopress-multilingual/jekyll"
 require "octopress-multilingual/command"
@@ -25,6 +26,23 @@ module Octopress
 
     def site
       @site ||= Octopress.site
+    end
+
+    def language_names(name=nil)
+      @language_names ||= begin
+        config = SafeYAML.load_file(File.expand_path('../../language_key.yml', __FILE__))
+        if lang_config = site.config['language_names']
+          config.merge!(lang_config)
+        end
+
+        config
+      end
+
+      if name
+        @language_names[name]
+      else
+        @language_names
+      end
     end
 
     def translated_posts
