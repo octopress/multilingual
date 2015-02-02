@@ -13,7 +13,7 @@ module Octopress
         # Add translation page data to each page or post.
         #
         [site.pages, site.posts].flatten.each do |item|
-          if item.translations && !item.translations.empty?
+          if item.translated
             # Access array of translated items via (post/page).translations
             item.data.merge!({'translations' => item.translations})
           end

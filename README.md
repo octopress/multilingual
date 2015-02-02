@@ -3,7 +3,8 @@
 Add multiple language features to your Jekyll site. This plugin makes it easy to:
 
 - Add language-specific post indexes, archives, and RSS feeds.
-- Set language based permalinks. 
+- Link between translated posts and pages.
+- Use language in your permalinks. 
 - Cross-post between languages.
 
 [![Build Status](http://img.shields.io/travis/octopress/multilingual.svg)](https://travis-ci.org/octopress/multilingual)
@@ -102,12 +103,54 @@ lang: en
 {% for post in site.posts %} ... {% endfor %}
 ```
 
-If your default post index is at `/index.html` you should create additional indexes for each secondary language. If your secondary language is German, create a posts index at `/de/index.html`.
+If your default post index is at `/index.html` you should create additional indexes for each secondary language. If you also write in German, you can create a posts index at `/de/index.html`. This approach will work for post archives and RSS feeds, though if you are using [octopress-feeds](https://github.com/octopress/feeds), RSS feeds for each language will be generated automatically.
 
 How does it work? First this plugin groups all of your posts by language. Then at build time, any page with a language defined will
 have its posts filtered to display only matching languages. If your site uses [octopress-linkblog](https://github.com/octopress/linkblog) to publish link-posts, your `site.articles` and `site.linkposts` will be filtered as well.
 
-This same approach will let you create language-specific RSS feeds and post archives. If you are using [octopress-feeds](https://github.com/octopress/feeds), the default RSS feeds will automatically use your default `site.lang` defined language and you can easily create additional RSS feeds for additional languages.
+## Link between translated posts or pages
+
+URLs can change and manually linking to translated posts or pages isn't the best idea. This plugin helps you link posts together using
+a shared translation ID. With [octopress](https://github.com/octopress/octopress), you'll be able to automatically add translation IDs to pages and posts. Then you can reference the array of translations with `post.tranlsations` or `page.translations`. Here's the syntax:
+
+```
+$ octopress translate path [path path...]
+```
+
+This will create a unique key and automatically write it to the YAML front-matter each of the pages or posts you pass in. Here's an
+example:
+
+```
+$ octopress translate _posts/2015-02-02-english-post.md _posts/2015-02-02-deutsch-post.md
+```
+
+Here is what the YAML front-matter looks like now for these posts:
+
+```
+---
+title: This post is written in English
+lang: en
+translation_id: 129dlkj19dj19j1ljd1iu1optva
+---
+```
+
+```
+---
+title: Dies wird in deutscher Sprache
+lang: de
+translation_id: 129dlkj19dj19j1ljd1iu1optva
+---
+```
+
+Then in your templates you can loop through the translations like this:
+
+```
+{% if page.translated %}
+  Translations: {% for t in page.translations %}
+    <a href="{{ t.url }}">{{ t.lang }}</a>
+  {% endfor %}
+{% endif %}
+```
 
 ## Reference posts by language
 

@@ -26,11 +26,17 @@ module Octopress
     end
 
     def translated_posts
-      @translated_posts ||= site.posts.reverse.select(&:translated).group_by(&:translated)
+      @translated_posts ||= begin
+        filter = lambda {|p| p.data['translation_id']}
+        site.posts.reverse.select(&filter).group_by(&filter)
+      end
     end
 
     def translated_pages
-      @translated_pages ||= site.pages.select(&:translated).group_by(&:translated)
+      @translated_pages ||= begin
+        filter = lambda {|p| p.data['translation_id']}
+        site.pages.select(&filter).group_by(&filter)
+      end
     end
 
     def languages

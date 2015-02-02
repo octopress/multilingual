@@ -49,12 +49,12 @@ module Jekyll
     end
 
     def translated
-      data['translation_id']
+      data['translation_id'] && !translations.empty?
     end
 
     def translations
-      if translated
-        @translations ||= Octopress::Multilingual.translated_pages[translated].reject {|p| p == self }
+      if data['translation_id']
+        @translations ||= Octopress::Multilingual.translated_pages[data['translation_id']].reject {|p| p == self }
       end
     end
 
@@ -81,12 +81,12 @@ module Jekyll
     end
 
     def translated
-      data['translation_id']
+      data['translation_id'] && !translations.empty?
     end
 
     def translations
-      if translated
-        @translations ||= Octopress::Multilingual.translated_posts[translated].reject {|p| p == self}
+      if data['translation_id']
+        @translations ||= Octopress::Multilingual.translated_posts[data['translation_id']].reject {|p| p == self}
       end
     end
 
