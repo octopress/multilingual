@@ -1,6 +1,9 @@
 # Changelog
 
 ### 0.2.0 (2015-02-02)
+- No longer necessary to abort if site language is not defined.
+
+### 0.2.0 (2015-02-02)
 - Added a `language_name` method for retrieving a match from the language_names hash.
 
 ### 0.2.0 (2015-02-02)

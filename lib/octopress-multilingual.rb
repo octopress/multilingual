@@ -15,12 +15,10 @@ module Octopress
     attr_accessor :site
 
     def main_language
-      if @lang ||= site.config['lang']
-        @lang.downcase
-      else
-        abort "Build canceled by Octopress Multilingual.\n".red \
-             << "Your Jekyll site configuration must have a main language. For example:\n\n" \
-             << "  lang: en\n\n"
+      @lang ||= begin
+        if lang = site.config['lang']
+          lang.downcase
+        end
       end
     end
 
@@ -29,11 +27,7 @@ module Octopress
     end
 
     def language_name(name=nil)
-      if language = language_names[name]
-        language
-      else
-        name
-      end
+      language_names[name] || name
     end
 
     def language_names
@@ -133,17 +127,15 @@ module Octopress
 
     def site_payload
       # Skip when when showing documentation site
-      if defined?(Octopress::Docs) && Octopress::Docs.enabled?
-        {}
-      else
-        return unless main_language
-
+      if main_language
         @payload ||= {
           'posts_by_language'     => posts_by_language,
           'linkposts_by_language' => linkposts_by_language,
           'articles_by_language'  => articles_by_language,
           'languages'             => languages
         }
+      else
+        {}
       end
     end
   end
