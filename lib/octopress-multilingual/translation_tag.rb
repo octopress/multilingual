@@ -25,7 +25,7 @@ module Octopress
         end
 
         def anchor(item)
-          language = Octopress::Multilingual.language_names(item.lang)
+          language = Octopress::Multilingual.language_name(item.lang)
           "<a class='translation-link lang-#{item.lang}' href='#{ item.url }'>#{ language }</a>"
         end
 

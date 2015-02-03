@@ -28,20 +28,21 @@ module Octopress
       @site ||= Octopress.site
     end
 
-    def language_names(name=nil)
+    def language_name(name=nil)
+      if language = language_names[name]
+        language
+      else
+        name
+      end
+    end
+
+    def language_names
       @language_names ||= begin
         config = SafeYAML.load_file(File.expand_path('../../language_key.yml', __FILE__))
         if lang_config = site.config['language_names']
           config.merge!(lang_config)
         end
-
         config
-      end
-
-      if name
-        @language_names[name]
-      else
-        @language_names
       end
     end
 
