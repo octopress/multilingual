@@ -1,5 +1,9 @@
 # Changelog
 
+### 0.3.0 (2015-02-03)
+- New: Language dictionaries for simplifying site templates.
+- Change: `translate` command renamed to `id` to be clearer about what it actually does.
+
 ### 0.2.3 (2015-02-03)
 - Fixed an issue where permalinks would break if post/page language was not defined.
 
