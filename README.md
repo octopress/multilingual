@@ -6,7 +6,7 @@ Add multiple language features to your Jekyll site. This plugin makes it easy to
 - Link between translated posts and pages.
 - Use language in your permalinks. 
 - Cross-post a single post to all languages.
-- Set up easy site template translation.
+- Add translation dictionaries to simplify site templates.
 
 [![Build Status](http://img.shields.io/travis/octopress/multilingual.svg)](https://travis-ci.org/octopress/multilingual)
 [![Gem Version](http://img.shields.io/gem/v/octopress-multilingual.svg)](https://rubygems.org/gems/octopress-multilingual)
