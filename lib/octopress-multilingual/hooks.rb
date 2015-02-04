@@ -16,15 +16,18 @@ module Octopress
           if item.translated
             # Access array of translated items via (post/page).translations
             item.data.merge!({
-                'translations' => item.translations,
-                'translated' => item.translated
-              })
+              'translations' => item.translations,
+              'translated' => item.translated
+            })
           end
         end
       end
 
       def merge_payload(payload, site)
-        { 'site' => Octopress::Multilingual.site_payload }
+        { 
+          'site' => Octopress::Multilingual.site_payload,
+          'lang' => {}
+        }
       end
     end
 
@@ -41,7 +44,7 @@ module Octopress
       #
       def merge_payload(payload, item)
         if item.lang
-          { 'site' => Octopress::Multilingual.page_payload(item.lang) }
+          Octopress::Multilingual.page_payload(item.lang)
         end
       end
 

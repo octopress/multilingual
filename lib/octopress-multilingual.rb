@@ -30,6 +30,16 @@ module Octopress
       language_names[name] || name
     end
 
+    def data_lang
+      @data_lang ||= begin
+        data = {}
+        site.languages.each do |lang|
+          data[lang] = site.data["lang_#{lang}"]
+        end
+        data
+      end
+    end
+
     def language_names
       @language_names ||= begin
         config = SafeYAML.load_file(File.expand_path('../../language_key.yml', __FILE__))
@@ -118,10 +128,13 @@ module Octopress
     end
 
     def page_payload(lang)
-      { 
-        'posts'     => posts_by_language[lang],
-        'linkposts' => linkposts_by_language[lang],
-        'articles'  => articles_by_language[lang]
+      {
+        'site' => { 
+          'posts'     => posts_by_language[lang],
+          'linkposts' => linkposts_by_language[lang],
+          'articles'  => articles_by_language[lang]
+        },
+        'lang' => data_lang[lang]
       }
     end
 
