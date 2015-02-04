@@ -6,6 +6,7 @@ Add multiple language features to your Jekyll site. This plugin makes it easy to
 - Link between translated posts and pages.
 - Use language in your permalinks. 
 - Cross-post a single post to all languages.
+- Set up easy site template translation.
 
 [![Build Status](http://img.shields.io/travis/octopress/multilingual.svg)](https://travis-ci.org/octopress/multilingual)
 [![Gem Version](http://img.shields.io/gem/v/octopress-multilingual.svg)](https://rubygems.org/gems/octopress-multilingual)
@@ -113,19 +114,62 @@ If your default post index is at `/index.html` you should create additional inde
 How does it work? First this plugin groups all of your posts by language. Then at build time, any page with a language defined will
 have its posts filtered to display only matching languages. If your site uses [octopress-linkblog](https://github.com/octopress/linkblog) to publish link-posts, your `site.articles` and `site.linkposts` will be filtered as well.
 
+## Site template language dictionaries
+
+It's annoying to have to write multiple site layouts and includes when the only differences are translated words. Octopress Multilingual
+adds language dictionaries to make this much easier. In your site's `_data` directory you can add language dictionaries with the file
+naming pattern `lang_[langauge_code].yml`. For example:
+
+```
+_data
+  lang_en.yml
+  lang_de.yml
+```
+
+Your files might look like this:
+
+```
+# lang_en.yml
+title: English title
+
+# lang_de.yml
+title: Deutsch titel
+```
+
+Now in your layouts or includes you can reference these dictionaries under the global variable `lang`. The configured page or post
+language will determine which language dictionary is used. For example:
+
+```
+# On a page or post where lang: en
+{{ lang.title }} => English title
+
+# On a page or post where lang: de
+{{ lang.title }} => Deutsch titel
+```
+
+If no language is configured for a page or post, it will default to the site's default language.
+
+```
+# No page lang, site is configured lang: en
+{{ lang.title }} =>  English title
+```
+
+Since these are Jekyll data sources, these dictionaries can also be accessed at `site.data.lang_en` and `site.data.lang_de`. This
+plugin merely adds the global `lang` variable and swaps out context based on configured language.
+
 ## Link between translated posts or pages
 
 URLs can change and manually linking to translated posts or pages isn't the best idea. This plugin helps you link posts together using a shared translation ID. With [octopress](https://github.com/octopress/octopress), you'll be able to automatically add translation IDs to pages and posts. Then you can reference the array of translations with `post.tranlsations` or `page.translations`. Here's the syntax:
 
 ```
-$ octopress translate path [path path...]
+$ octopress id path [path path...]
 ```
 
 This will create a unique key and automatically write it to the YAML front-matter each of the pages or posts you pass in. Here's an
 example:
 
 ```
-$ octopress translate _posts/2015-02-02-english-post.md _posts/2015-02-02-deutsch-post.md _posts/2015-02-02-espanol-post.md
+$ octopress id _posts/2015-02-02-english-post.md _posts/2015-02-02-deutsch-post.md _posts/2015-02-02-espanol-post.md
 ```
 
 This will add `translation_id: fcdbc7e82b45346d67cced3523a2f236` to the YAML front-matter of each of these posts. There's nothing special about this key except that it is unique. If you want to write your own you can, it'll work just fine.
@@ -221,7 +265,6 @@ ordinal => /:lang/:categories/:year/:y_day/:title.html
 ```
 
 If you don't want language to appear in your URLs, you must configure your own permalinks without `:lang`.
-
 
 ## Temporary language scoping
 

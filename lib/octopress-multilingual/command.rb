@@ -9,21 +9,18 @@ if defined? Octopress::Command
     module Multilingual
       class Translate < Command
         def self.init_with_program(p)
-          p.command(:translate) do |c|
-            c.syntax 'translation <path> [path path...]>'
+          p.command(:id) do |c|
+            c.syntax 'id <path> [path path...]>'
             c.description "Generate a uniqe id to link translated posts or pages."
+
             c.action do |args|
-              translate(args)
+              generate_id(args)
             end
           end
         end
 
         def self.generate_id(paths)
-          Digest::MD5.hexdigest(paths.join)
-        end
-
-        def self.translate(paths)
-          id = generate_id(paths)
+          id = Digest::MD5.hexdigest(paths.join)
           translated = []
           paths.each do |path|
             if File.file? path

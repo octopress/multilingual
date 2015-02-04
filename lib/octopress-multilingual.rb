@@ -30,8 +30,8 @@ module Octopress
       language_names[name] || name
     end
 
-    def data_lang
-      @data_lang ||= begin
+    def lang_dict
+      @lang_dict ||= begin
         data = {}
         site.languages.each do |lang|
           data[lang] = site.data["lang_#{lang}"]
@@ -134,7 +134,7 @@ module Octopress
           'linkposts' => linkposts_by_language[lang],
           'articles'  => articles_by_language[lang]
         },
-        'lang' => data_lang[lang]
+        'lang' => lang_dict[lang]
       }
     end
 
@@ -142,10 +142,13 @@ module Octopress
       # Skip when when showing documentation site
       if main_language
         @payload ||= {
-          'posts_by_language'     => posts_by_language,
-          'linkposts_by_language' => linkposts_by_language,
-          'articles_by_language'  => articles_by_language,
-          'languages'             => languages
+          'site' => {
+            'posts_by_language'     => posts_by_language,
+            'linkposts_by_language' => linkposts_by_language,
+            'articles_by_language'  => articles_by_language,
+            'languages'             => languages
+          },
+          'lang' => lang_dict[main_language]
         }
       else
         {}

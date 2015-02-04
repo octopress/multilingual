@@ -24,10 +24,7 @@ module Octopress
       end
 
       def merge_payload(payload, site)
-        { 
-          'site' => Octopress::Multilingual.site_payload,
-          'lang' => {}
-        }
+        Octopress::Multilingual.site_payload
       end
     end
 
