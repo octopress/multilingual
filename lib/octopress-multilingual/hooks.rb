@@ -5,7 +5,7 @@ module Octopress
       # Generate site_payload so other plugins can access
       def post_read(site)
         Octopress::Multilingual.site = site
-        site.config['languages'] = site.languages
+        site.config['languages'] = Octopress::Multilingual.languages
       end
 
       def pre_render(site)

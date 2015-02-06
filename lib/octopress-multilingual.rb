@@ -65,7 +65,7 @@ module Octopress
     end
 
     def languages
-      posts_by_language.keys
+      @languages ||= (site.posts.dup.concat(site.pages)).select(&:lang).group_by(&:lang).keys
     end
 
     def posts_by_language
@@ -104,8 +104,10 @@ module Octopress
         articles = {}
 
         languages.each do |lang|
-          articles[lang] = posts_by_language[lang].reject do |p|
-            p.data['linkpost']
+          if posts = posts_by_language[lang]
+            articles[lang] = posts.reject do |p|
+              p.data['linkpost']
+            end
           end
         end
 
@@ -118,8 +120,10 @@ module Octopress
         linkposts = {}
 
         languages.each do |lang|
-          linkposts[lang] = posts_by_language[lang].select do |p|
-            p.data['linkpost']
+          if posts = posts_by_language[lang]
+            linkposts[lang] = posts.select do |p|
+              p.data['linkpost']
+            end
           end
         end
 
@@ -128,7 +132,7 @@ module Octopress
     end
 
     def page_payload(lang)
-      {
+      payload = {
         'site' => { 
           'posts'     => posts_by_language[lang],
           'linkposts' => linkposts_by_language[lang],
@@ -136,10 +140,15 @@ module Octopress
         },
         'lang' => lang_dict[lang]
       }
+
+      if defined?(Octopress::Ink) && site.config['lang']
+        payload.merge!(Octopress::Ink.payload(lang))
+      end
+
+      payload
     end
 
     def site_payload
-      # Skip when when showing documentation site
       if main_language
         @payload ||= {
           'site' => {
