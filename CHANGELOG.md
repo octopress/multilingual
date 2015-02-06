@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.0.0 (2015-02-06)
+- Added Octopress Ink integration (merges Ink payload on pages)
+- Fixed an issue where page languages weren't being added to site languages
+
 ### 0.3.0 (2015-02-03)
 - New: Language dictionaries for simplifying site templates.
 - Change: `translate` command renamed to `id` to be clearer about what it actually does.
