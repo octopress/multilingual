@@ -65,7 +65,10 @@ module Octopress
     end
 
     def languages
-      @languages ||= (site.posts.dup.concat(site.pages)).select(&:lang).group_by(&:lang).keys
+      @languages ||= begin
+        languages = site.posts.dup.concat(site.pages).select(&:lang).group_by(&:lang).keys
+        (languages << main_language).uniq
+      end
     end
 
     def posts_by_language

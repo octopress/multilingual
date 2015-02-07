@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.0.1 (2015-02-06)
+- Fix: Ensure main language is in languages array.
+
 ### 1.0.0 (2015-02-06)
 - Added Octopress Ink integration (merges Ink payload on pages)
 - Fixed an issue where page languages weren't being added to site languages
