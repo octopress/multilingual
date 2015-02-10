@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.0.2 (2015-02-10)
+- Fix: Page permalinks were getting set to by language names.
+
 ### 1.0.1 (2015-02-06)
 - Fix: Ensure main language is in languages array.
 
