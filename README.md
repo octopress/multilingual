@@ -43,13 +43,20 @@ Note: First-party Octopress plugins are designed to support multilingual sites b
 
 Also, if you are using flags to represent languages on your site, you might like to read, [Why flags do not represent language](http://flagsarenotlanguages.com/blog/why-flags-do-not-represent-language/).
 
+## Helpful Plugins
+
+These plugins automatically add multilingual features to your site when used with Octopress Multilingual.
+
+- [Octopress Linkblog](https://github.com/octopress/linkblog) adds link-blogging indexes (articles-only, links-only) and feeds for each language.
+- [Octopress Feeds](https://github.com/octopress/feeds) adds RSS feeds for each language.
+
 ## Setup
 
 When adding this plugin to your site, you will need to:
 
 1. Configure your site's main language, e.g. `lang: en`.
 2. Add a language to the YAML front-matter of your posts, e.g. `lang: de`.
-3. Add new RSS feeds and post indexes for secondary languages.
+3. Add post indexes and RSS feeds for secondary languages.
 
 First, be sure to configure your Jekyll site's main language. An site written primarily in English would add this to its Jekyll configuration:
 
