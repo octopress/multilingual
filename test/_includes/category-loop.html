@@ -1,0 +1,3 @@
+Categories: {% for post_category in site.categories %}
+  {{ post_category[0] }}: {% for post in post_category[1] %}
+    - {{ post.title }} ({{ post.categories | join: ','}}){% endfor %}{% endfor %}
