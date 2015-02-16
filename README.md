@@ -7,6 +7,7 @@ Add multiple language features to your Jekyll site. This plugin makes it easy to
 - Use language in your permalinks. 
 - Cross-post a single post to all languages.
 - Add translation dictionaries to simplify site templates.
+- Tag and category indexes are automatically filtered by language.
 
 [![Build Status](http://img.shields.io/travis/octopress/multilingual.svg)](https://travis-ci.org/octopress/multilingual)
 [![Gem Version](http://img.shields.io/gem/v/octopress-multilingual.svg)](https://rubygems.org/gems/octopress-multilingual)
@@ -119,7 +120,8 @@ lang: en
 If your default post index is at `/index.html` you should create additional indexes for each secondary language. If you also write in German, you can create a posts index at `/de/index.html`. This approach will work for post archives and RSS feeds, though if you are using [octopress-feeds](https://github.com/octopress/feeds), RSS feeds for each language will be generated automatically.
 
 How does it work? First this plugin groups all of your posts by language. Then at build time, any page with a language defined will
-have its posts filtered to display only matching languages. If your site uses [octopress-linkblog](https://github.com/octopress/linkblog) to publish link-posts, your `site.articles` and `site.linkposts` will be filtered as well.
+have its posts filtered to display only matching languages. This also works for `site.categories` and `site.tags`.
+If your site uses [octopress-linkblog](https://github.com/octopress/linkblog) to publish link-posts, your `site.articles` and `site.linkposts` will be filtered as well.
 
 ## Site template language dictionaries
 

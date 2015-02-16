@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.1.0 (2015-02-16)
+- New: Tags and Categories are now also filtered by language.
+
 ### 1.0.2 (2015-02-10)
 - Fix: Page permalinks were getting set to by language names.
 
