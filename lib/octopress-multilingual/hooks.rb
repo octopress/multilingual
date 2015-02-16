@@ -12,14 +12,12 @@ module Octopress
 
         # Add translation page data to each page or post.
         #
-        [site.pages, site.posts].flatten.each do |item|
-          if item.translated
-            # Access array of translated items via (post/page).translations
-            item.data.merge!({
-              'translations' => item.translations,
-              'translated' => item.translated
-            })
-          end
+        [site.pages, site.posts].flatten.select(&:translated).each do |item|
+          # Access array of translated items via (post/page).translations
+          item.data.merge!({
+            'translations' => item.translations,
+            'translated' => item.translated
+          })
         end
       end
 
@@ -45,6 +43,14 @@ module Octopress
         end
       end
 
+      # Override deep_merge to prevent categories and tags from being combined when they shouldn't
+      #
+      def deep_merge_payload(page_payload, hook_payload)
+        %w{site page}.each do |key|
+          hook_payload[key] = page_payload[key].merge(hook_payload[key] || {})
+        end
+        hook_payload
+      end
     end
   end
 end

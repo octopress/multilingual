@@ -134,12 +134,43 @@ module Octopress
       end
     end
 
+    def metadata_index_by_language(index)
+      # Get site categories or tags
+      site_indexes = site.send(index)
+
+      indexes = {}
+
+      # Filter indexes for each language
+      languages.each do |lang|
+        indexes[lang] = {}
+        site_indexes.each do |index, posts|
+          posts = posts.select do |p| 
+            p.lang == lang || (lang == main_language && p.lang.nil?) || p.crosspost_languages
+          end
+
+          indexes[lang][index] = posts unless posts.empty?
+        end
+      end
+
+      indexes
+    end
+
+    def categories_by_language
+      @categories ||= metadata_index_by_language(:categories)
+    end
+
+    def tags_by_language
+      @tags ||= metadata_index_by_language(:tags)
+    end
+
     def page_payload(lang)
       payload = {
         'site' => { 
-          'posts'     => posts_by_language[lang],
-          'linkposts' => linkposts_by_language[lang],
-          'articles'  => articles_by_language[lang]
+          'posts'      => posts_by_language[lang],
+          'linkposts'  => linkposts_by_language[lang],
+          'articles'   => articles_by_language[lang],
+          'categories' => categories_by_language[lang],
+          'tags'       => tags_by_language[lang]
         },
         'lang' => lang_dict[lang]
       }
@@ -155,10 +186,12 @@ module Octopress
       if main_language
         @payload ||= {
           'site' => {
-            'posts_by_language'     => posts_by_language,
-            'linkposts_by_language' => linkposts_by_language,
-            'articles_by_language'  => articles_by_language,
-            'languages'             => languages
+            'posts_by_language'      => posts_by_language,
+            'linkposts_by_language'  => linkposts_by_language,
+            'articles_by_language'   => articles_by_language,
+            'categories_by_language' => categories_by_language,
+            'tags_by_language'       => tags_by_language,
+            'languages'              => languages
           },
           'lang' => lang_dict[main_language]
         }
