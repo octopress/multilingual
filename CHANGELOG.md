@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.1.1 (2015-02-18)
+- Minor: Now site languages array always lists primary language first.
+
 ### 1.1.0 (2015-02-16)
 - New: Tags and Categories are now also filtered by language.
 
