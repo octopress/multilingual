@@ -67,7 +67,7 @@ module Octopress
     def languages
       @languages ||= begin
         languages = site.posts.dup.concat(site.pages).select(&:lang).group_by(&:lang).keys
-        (languages << main_language).uniq
+        (languages.unshift(main_language)).uniq
       end
     end
 
