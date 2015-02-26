@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.1.2 (2015-02-26)
+- Fix: Pages with `:lang` in permalink structure are given proper URLs if language is not defined for them.
+
 ### 1.1.1 (2015-02-18)
 - Minor: Now site languages array always lists primary language first.
 
