@@ -59,12 +59,17 @@ module Jekyll
     end
 
     def permalink
-      if lang && permalink = permalink_orig
-        data['permalink'].sub!(/:lang/, lang)
-        permalink.sub(/:lang/, lang)
-      else
-        permalink_orig
+      if permalink = permalink_orig
+        if lang
+          data['permalink'].sub!(':lang', lang)
+          permalink.sub!(':lang', lang)
+        else
+          data['permalink'].sub!('/:lang', '')
+          permalink.sub!('/:lang', '')
+        end
       end
+
+      permalink
     end
   end
 
