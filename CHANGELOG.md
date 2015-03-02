@@ -1,5 +1,8 @@
 # Changelog
 
+### 1.1.3 (2015-03-02)
+- Fix: Posts permalinks will only have language defined if the site has a default language.
+
 ### 1.1.2 (2015-02-26)
 - Fix: Pages with `:lang` in permalink structure are given proper URLs if language is not defined for them.
 

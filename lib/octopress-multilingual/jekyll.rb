@@ -80,8 +80,10 @@ module Jekyll
     def template
       template = template_orig
 
-      if [:pretty, :none, :date, :ordinal].include? site.permalink_style
-        template = File.join('/:lang', template)
+      if self.site.config['lang']
+        if [:pretty, :none, :date, :ordinal].include? site.permalink_style
+          template = File.join('/:lang', template)
+        end
       end
 
       template
