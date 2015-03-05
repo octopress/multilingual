@@ -17,16 +17,24 @@ module Jekyll
       Octopress::Multilingual.languages
     end
 
-    def posts_by_language
-      Octopress::Multilingual.posts_by_language
+    def posts_by_language(lang=nil)
+      Octopress::Multilingual.posts_by_language(lang)
     end
 
-    def articles_by_language
-      Octopress::Multilingual.articles_by_language
+    def articles_by_language(lang=nil)
+      Octopress::Multilingual.articles_by_language(lang)
     end
 
-    def linkposts_by_language
-      Octopress::Multilingual.linkposts_by_language
+    def linkposts_by_language(lang=nil)
+      Octopress::Multilingual.linkposts_by_language(lang)
+    end
+
+    def categories_by_language(lang=nil)
+      Octopress::Multilingual.categories_by_language(lang)
+    end
+
+    def tags_by_language(lang=nil)
+      Octopress::Multilingual.tags_by_language(lang)
     end
   end
 
@@ -117,7 +125,7 @@ module Jekyll
 
     def next
       language = lang || site.config['lang']
-      posts = Octopress::Multilingual.posts_by_language[language]
+      posts = Octopress::Multilingual.posts_by_language(language)
 
       pos = posts.index {|post| post.equal?(self) }
       if pos && pos < posts.length - 1
@@ -129,7 +137,7 @@ module Jekyll
 
     def previous
       language = lang || site.config['lang']
-      posts = Octopress::Multilingual.posts_by_language[language]
+      posts = Octopress::Multilingual.posts_by_language(language)
 
       pos = posts.index {|post| post.equal?(self) }
       if pos && pos > 0

@@ -71,7 +71,7 @@ module Octopress
       end
     end
 
-    def posts_by_language
+    def posts_by_language(lang=nil)
       @posts_by_language ||= begin
         posts = site.posts.reverse.select(&:lang).group_by(&:lang)
         ## Add posts that crosspost to all languages
@@ -83,9 +83,10 @@ module Octopress
         end
 
         posts[main_language] = main_language_posts
-
         posts
       end
+
+      @posts_by_language[lang] || []
     end
 
     def crossposts
@@ -102,12 +103,12 @@ module Octopress
       @posts_without_lang ||= site.reject(&:lang)
     end
 
-    def articles_by_language
+    def articles_by_language(lang=nil)
       @articles_by_language ||= begin
         articles = {}
 
         languages.each do |lang|
-          if posts = posts_by_language[lang]
+          if posts = posts_by_language(lang)
             articles[lang] = posts.reject do |p|
               p.data['linkpost']
             end
@@ -116,14 +117,16 @@ module Octopress
 
         articles
       end
+
+      @articles_by_language[lang] || []
     end
 
-    def linkposts_by_language
+    def linkposts_by_language(lang=nil)
       @linkposts_by_language ||= begin
         linkposts = {}
 
         languages.each do |lang|
-          if posts = posts_by_language[lang]
+          if posts = posts_by_language(lang)
             linkposts[lang] = posts.select do |p|
               p.data['linkpost']
             end
@@ -132,6 +135,8 @@ module Octopress
 
         linkposts
       end
+
+      @linkposts_by_language[lang] || []
     end
 
     def metadata_index_by_language(index)
@@ -155,22 +160,24 @@ module Octopress
       indexes
     end
 
-    def categories_by_language
+    def categories_by_language(lang=nil)
       @categories ||= metadata_index_by_language(:categories)
+      @categories[lang] || {}
     end
 
-    def tags_by_language
+    def tags_by_language(lang=nil)
       @tags ||= metadata_index_by_language(:tags)
+      @tags[lang] || {}
     end
 
     def page_payload(lang)
       payload = {
         'site' => { 
-          'posts'      => posts_by_language[lang],
-          'linkposts'  => linkposts_by_language[lang],
-          'articles'   => articles_by_language[lang],
-          'categories' => categories_by_language[lang],
-          'tags'       => tags_by_language[lang]
+          'posts'      => posts_by_language(lang),
+          'linkposts'  => linkposts_by_language(lang),
+          'articles'   => articles_by_language(lang),
+          'categories' => categories_by_language(lang),
+          'tags'       => tags_by_language(lang)
         },
         'lang' => lang_dict[lang]
       }
