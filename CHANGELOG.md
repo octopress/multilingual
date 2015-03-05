@@ -1,6 +1,6 @@
 # Changelog
 
-### 1.2.0 (2015-03-04)
+### 1.2.0 (2015-03-05)
 - New: Site methods, `tags_by_language` and `categories_by_language`.
 - New: Methods `posts_by_language`, `articles_by_language`, `linkposts_by_language`, `categories_by_language`, `tags_by_language` now accept a language and return an empty array or empty hash rather than `nil` if no posts exist.
 
