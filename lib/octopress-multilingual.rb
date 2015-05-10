@@ -1,4 +1,3 @@
-require 'octopress-hooks'
 require 'liquid'
 
 require "octopress-multilingual/version"
@@ -8,6 +7,7 @@ require "octopress-multilingual/filters"
 require "octopress-multilingual/hooks"
 require "octopress-multilingual/jekyll"
 require "octopress-multilingual/command"
+require "octopress-debugger"
 
 module Octopress
   module Multilingual
@@ -170,40 +170,41 @@ module Octopress
       @tags[lang] || {}
     end
 
-    def page_payload(lang)
-      payload = {
-        'site' => { 
+    def page_payload(lang, payload={})
+      if lang
+        payload['site'] ||= {}
+
+        {
           'posts'      => posts_by_language(lang),
           'linkposts'  => linkposts_by_language(lang),
           'articles'   => articles_by_language(lang),
           'categories' => categories_by_language(lang),
           'tags'       => tags_by_language(lang)
-        },
-        'lang' => lang_dict[lang]
-      }
+        }.each do |key, value|
+          payload['site'][key] = value
+        end
 
-      if defined?(Octopress::Ink) && site.config['lang']
-        payload.merge!(Octopress::Ink.payload(lang))
+        payload['lang'] = lang_dict[lang]
+
+        if defined?(Octopress::Ink) && site.config['lang']
+          payload.merge!(Octopress::Ink.payload(lang))
+        end
       end
 
       payload
     end
 
-    def site_payload
+    def site_payload(payload)
       if main_language
-        @payload ||= {
-          'site' => {
-            'posts_by_language'      => posts_by_language,
-            'linkposts_by_language'  => linkposts_by_language,
-            'articles_by_language'   => articles_by_language,
-            'categories_by_language' => categories_by_language,
-            'tags_by_language'       => tags_by_language,
-            'languages'              => languages
-          },
-          'lang' => lang_dict[main_language]
-        }
-      else
-        {}
+        payload['site'].merge!({
+          'posts_by_language'      => posts_by_language,
+          'linkposts_by_language'  => linkposts_by_language,
+          'articles_by_language'   => articles_by_language,
+          'categories_by_language' => categories_by_language,
+          'tags_by_language'       => tags_by_language,
+          'languages'              => languages
+        })
+        payload['lang'] = lang_dict[main_language]
       end
     end
   end
