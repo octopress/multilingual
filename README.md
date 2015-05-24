@@ -127,7 +127,7 @@ If your site uses [octopress-linkblog](https://github.com/octopress/linkblog) to
 
 It's annoying to have to write multiple site layouts and includes when the only differences are translated words. Octopress Multilingual
 adds language dictionaries to make this much easier. In your site's `_data` directory you can add language dictionaries with the file
-naming pattern `lang_[langauge_code].yml`. For example:
+naming pattern `lang_[language_code].yml`. For example:
 
 ```
 _data
